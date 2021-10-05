@@ -1,24 +1,25 @@
 package com.upv.jesgarsas.patronusapi.app.controller;
 
 import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.upv.jesgarsas.patronusapi.app.model.dto.UsuarioDTO;
-import com.upv.jesgarsas.patronusapi.app.service.UsuarioService;
+import com.upv.jesgarsas.patronusapi.app.model.dto.PatronDTO;
+import com.upv.jesgarsas.patronusapi.app.service.PatronService;
 
 @Controller
-@RequestMapping(value = "/usuario")
-public class UsuarioController {
-	
+@RequestMapping(value = "/patron")
+public class PatronController {
+
 	@Autowired
-	private UsuarioService usuarioService;
+	private PatronService patronService;
 	
 	@GetMapping("/all")
-	public ResponseEntity<List<UsuarioDTO>> findAllUsuarios() {
-		return ResponseEntity.ok(usuarioService.findAllUsuarios());
+	public ResponseEntity<List<PatronDTO>> findAllPatrones() {
+		return ResponseEntity.ok(patronService.findAllPatrones());
 	}
 }
