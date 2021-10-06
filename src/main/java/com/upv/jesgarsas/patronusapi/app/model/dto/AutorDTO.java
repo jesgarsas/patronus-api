@@ -1,7 +1,11 @@
 package com.upv.jesgarsas.patronusapi.app.model.dto;
 
-public class AutorDTO {
+import java.io.Serializable;
+
+public class AutorDTO implements Serializable{
 	
+	private static final long serialVersionUID = 1L;
+
 	private Integer id;
 	
 	private String nick;

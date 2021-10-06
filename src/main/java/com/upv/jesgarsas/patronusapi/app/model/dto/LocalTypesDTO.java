@@ -1,7 +1,11 @@
 package com.upv.jesgarsas.patronusapi.app.model.dto;
 
-public class LocalTypesDTO {
+import java.io.Serializable;
+
+public class LocalTypesDTO implements Serializable {
 	
+	private static final long serialVersionUID = 1L;
+
 	private Integer id;
 	
 	private String code;
