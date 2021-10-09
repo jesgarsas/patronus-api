@@ -33,4 +33,10 @@ public class PatronController {
 	public ResponseEntity<PatronDTO> findById(@PathVariable(name = "id", required = true) Integer id) {
 		return ResponseEntity.ok(patronService.findById(id));
 	}
+	
+	@GetMapping("/{idPatron}/{idLocale}")
+	public ResponseEntity<PatronDTO> findByIdAndLocale(@PathVariable(name = "idPatron", required = true) Integer id,
+			@PathVariable(name = "idLocale", required = true) Integer idLocale) {
+		return ResponseEntity.ok(patronService.findByIdAndLocale(id, idLocale));
+	}
 }

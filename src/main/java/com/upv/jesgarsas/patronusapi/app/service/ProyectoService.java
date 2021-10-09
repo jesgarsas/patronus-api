@@ -20,7 +20,7 @@ public class ProyectoService {
 	private ProyectoRepository proyectoRepository;
 	
 	public List<ProyectoDTO> findByPatron(Integer idPatron) {
-		return proyectoMapper.toListDto(proyectoRepository.findByPatronId(idPatron));
+		return proyectoMapper.toListDto(proyectoRepository.findAllByPatronId(idPatron));
 	}
 	
 	public ProyectoDTO findById(Integer id) {

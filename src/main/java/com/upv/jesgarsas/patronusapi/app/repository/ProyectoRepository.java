@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 import com.upv.jesgarsas.patronusapi.app.model.entity.Proyecto;
 
 @Repository
-public interface ProyectoRepository extends JpaRepository<Proyecto, Integer>{
+public interface ProyectoRepository extends JpaRepository<Proyecto, Integer> {
 
-	public List<Proyecto> findByPatronId(Integer idPatron);
+	public List<Proyecto> findAllByPatronId(Integer idPatron);
 }

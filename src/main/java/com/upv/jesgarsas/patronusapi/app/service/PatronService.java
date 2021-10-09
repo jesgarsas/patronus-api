@@ -22,6 +22,12 @@ public class PatronService {
 	@Autowired
 	private DescripcionService descripcionService;
 	
+	@Autowired
+	private LeccionService leccionService;
+	
+	@Autowired
+	private ProyectoService proyectoService;
+	
 	public List<PatronDTO> findAllPatrones() {
 		return patronMapper.toListDto(patronRepository.findAll());
 	}
@@ -37,5 +43,15 @@ public class PatronService {
 			return patronMapper.toDto(patronRepository.findById(id).orElse(new Patron()));
 		}
 		return null;
+	}
+	
+	public PatronDTO findByIdAndLocale(Integer id, Integer idLocale) {
+		PatronDTO patron = patronMapper.toDto(patronRepository.findById(id).orElse(new Patron()));
+		if(patron.getId() != null) {
+			patron.setDescripcion(descripcionService.findByPatronAndLocale(patron.getId(), idLocale));
+			patron.setLeccion(leccionService.findByPatronAndLocale(id, idLocale));
+			patron.setProyectos(proyectoService.findByPatron(id));
+		}
+		return patron;
 	}
 }

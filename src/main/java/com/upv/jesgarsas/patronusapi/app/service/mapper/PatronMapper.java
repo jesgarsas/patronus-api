@@ -22,7 +22,8 @@ public abstract class PatronMapper {
 	@Mappings({@Mapping(target = "id", expression = "java(patron.getId())"),
 		@Mapping(target = "nombre", expression = "java(patron.getNombre())"),
 		@Mapping(target = "fechaCreacion", expression = "java(patron.getFechaCreacion())"),
-		@Mapping(target = "autor", expression = "java(autorMapper.toDto(patron.getAutor()))")})
+		@Mapping(target = "autor", expression = "java(autorMapper.toDto(patron.getAutor()))"),
+		@Mapping(target = "descripcion", ignore = true)})
 	public abstract PatronDTO toDto(Patron patron);
 	
 	@Mappings({@Mapping(target = "id", expression = "java(patron.getId())"),

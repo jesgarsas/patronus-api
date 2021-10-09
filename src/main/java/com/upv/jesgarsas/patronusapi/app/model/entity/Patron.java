@@ -86,5 +86,5 @@ public class Patron {
 	public void setAutor(Usuario autor) {
 		this.autor = autor;
 	}
-	
+
 }

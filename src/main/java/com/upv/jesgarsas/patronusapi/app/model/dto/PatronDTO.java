@@ -2,6 +2,7 @@ package com.upv.jesgarsas.patronusapi.app.model.dto;
 
 import java.io.Serializable;
 import java.sql.Date;
+import java.util.List;
 
 public class PatronDTO implements Serializable {
 
@@ -16,6 +17,10 @@ public class PatronDTO implements Serializable {
 	private AutorDTO autor;
 	
 	private DescripcionDTO descripcion;
+	
+	private List<ProyectoDTO> proyectos;
+	
+	private LeccionDTO leccion;
 
 	public PatronDTO() {
 	}
@@ -88,6 +93,34 @@ public class PatronDTO implements Serializable {
 	 */
 	public void setDescripcion(DescripcionDTO descripcion) {
 		this.descripcion = descripcion;
+	}
+
+	/**
+	 * @return the proyectos
+	 */
+	public List<ProyectoDTO> getProyectos() {
+		return proyectos;
+	}
+
+	/**
+	 * @param proyectos the proyectos to set
+	 */
+	public void setProyectos(List<ProyectoDTO> proyectos) {
+		this.proyectos = proyectos;
+	}
+
+	/**
+	 * @return the leccion
+	 */
+	public LeccionDTO getLeccion() {
+		return leccion;
+	}
+
+	/**
+	 * @param leccion the leccion to set
+	 */
+	public void setLeccion(LeccionDTO leccion) {
+		this.leccion = leccion;
 	}
 	
 }
