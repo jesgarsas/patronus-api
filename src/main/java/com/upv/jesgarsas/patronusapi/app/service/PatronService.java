@@ -19,8 +19,17 @@ public class PatronService {
 	@Autowired
 	private PatronMapper patronMapper;
 	
+	@Autowired
+	private DescripcionService descripcionService;
+	
 	public List<PatronDTO> findAllPatrones() {
 		return patronMapper.toListDto(patronRepository.findAll());
+	}
+	
+	public List<PatronDTO> findAllPatronesByLocale(Integer idLocale) {
+		List<PatronDTO> patrones = patronMapper.toListDto(patronRepository.findAll());
+		patrones.forEach(patron -> patron.setDescripcion(descripcionService.findByPatronAndLocale(patron.getId(), idLocale)));
+		return patrones;
 	}
 	
 	public PatronDTO findById(Integer id) {

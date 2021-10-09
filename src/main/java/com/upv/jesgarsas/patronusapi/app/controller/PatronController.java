@@ -24,6 +24,11 @@ public class PatronController {
 		return ResponseEntity.ok(patronService.findAllPatrones());
 	}
 	
+	@GetMapping("/all/{idLocale}")
+	public ResponseEntity<List<PatronDTO>> findAllPatrones(@PathVariable(name = "idLocale", required = true) Integer idLocale) {
+		return ResponseEntity.ok(patronService.findAllPatronesByLocale(idLocale));
+	}
+	
 	@GetMapping("/{id}")
 	public ResponseEntity<PatronDTO> findById(@PathVariable(name = "id", required = true) Integer id) {
 		return ResponseEntity.ok(patronService.findById(id));

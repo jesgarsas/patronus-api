@@ -14,6 +14,8 @@ public class PatronDTO implements Serializable {
 	private Date fechaCreacion;
 	
 	private AutorDTO autor;
+	
+	private DescripcionDTO descripcion;
 
 	public PatronDTO() {
 	}
@@ -72,6 +74,20 @@ public class PatronDTO implements Serializable {
 	 */
 	public void setAutor(AutorDTO autor) {
 		this.autor = autor;
+	}
+
+	/**
+	 * @return the descripcion
+	 */
+	public DescripcionDTO getDescripcion() {
+		return descripcion;
+	}
+
+	/**
+	 * @param descripcion the descripcion to set
+	 */
+	public void setDescripcion(DescripcionDTO descripcion) {
+		this.descripcion = descripcion;
 	}
 	
 }
