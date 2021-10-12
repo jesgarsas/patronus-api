@@ -34,7 +34,12 @@ public class PatronService {
 	
 	public List<PatronDTO> findAllPatronesByLocale(Integer idLocale) {
 		List<PatronDTO> patrones = patronMapper.toListDto(patronRepository.findAll());
-		patrones.forEach(patron -> patron.setDescripcion(descripcionService.findByPatronAndLocale(patron.getId(), idLocale)));
+		patrones.forEach(patron -> { 
+			patron.setDescripcion(descripcionService.findByPatronAndLocale(patron.getId(), idLocale));
+			patron.setLeccion(leccionService.findByPatronAndLocale(patron.getId(), idLocale));
+			patron.setProyectos(proyectoService.findByPatron(patron.getId()));
+		});
+		
 		return patrones;
 	}
 	
