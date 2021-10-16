@@ -18,18 +18,28 @@ public abstract class PatronMapper {
 	
 	@Autowired
 	protected AutorMapper autorMapper;
+	
+	@Autowired
+	protected DescripcionMapper descripcionMapper;
+	
+	@Autowired
+	protected LeccionMapper leccionMapper;
 
 	@Mappings({@Mapping(target = "id", expression = "java(patron.getId())"),
 		@Mapping(target = "nombre", expression = "java(patron.getNombre())"),
 		@Mapping(target = "fechaCreacion", expression = "java(patron.getFechaCreacion())"),
 		@Mapping(target = "autor", expression = "java(autorMapper.toDto(patron.getAutor()))"),
-		@Mapping(target = "descripcion", ignore = true)})
+		@Mapping(target = "descripciones", ignore = true),
+		@Mapping(target = "lecciones", ignore = true),
+		@Mapping(target = "proyectos", ignore = true)})
 	public abstract PatronDTO toDto(Patron patron);
 	
 	@Mappings({@Mapping(target = "id", expression = "java(patron.getId())"),
 		@Mapping(target = "nombre", expression = "java(patron.getNombre())"),
 		@Mapping(target = "fechaCreacion", expression = "java(patron.getFechaCreacion())"),
-		@Mapping(target = "autor", expression = "java(autorMapper.toEntity(patron.getAutor()))")})
+		@Mapping(target = "autor", ignore = true),
+		@Mapping(target = "descripciones", ignore = true),
+		@Mapping(target = "lecciones", ignore = true)})
 	public abstract Patron toEntity(PatronDTO patron);
 	
 	public List<PatronDTO> toListDto(Collection<Patron> patron) {

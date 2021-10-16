@@ -1,62 +1,114 @@
 package com.upv.jesgarsas.patronusapi.app.service;
 
 import java.util.List;
+import java.util.Set;
+import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.upv.jesgarsas.patronusapi.app.model.dto.PatronDTO;
 import com.upv.jesgarsas.patronusapi.app.model.entity.Patron;
+import com.upv.jesgarsas.patronusapi.app.model.entity.Proyecto;
+import com.upv.jesgarsas.patronusapi.app.model.entity.Usuario;
 import com.upv.jesgarsas.patronusapi.app.repository.PatronRepository;
+import com.upv.jesgarsas.patronusapi.app.repository.UsuarioRepository;
 import com.upv.jesgarsas.patronusapi.app.service.mapper.PatronMapper;
+import com.upv.jesgarsas.patronusapi.app.service.mapper.ProyectoMapper;
 
 @Service
 public class PatronService {
-	
+
 	@Autowired
 	private PatronRepository patronRepository;
-	
+
 	@Autowired
 	private PatronMapper patronMapper;
-	
+
+	@Autowired
+	private ProyectoMapper proyectoMapper;
+
 	@Autowired
 	private DescripcionService descripcionService;
-	
+
 	@Autowired
 	private LeccionService leccionService;
-	
+
 	@Autowired
 	private ProyectoService proyectoService;
-	
+
+	@Autowired
+	private UsuarioRepository usuarioRepository;
+
 	public List<PatronDTO> findAllPatrones() {
 		return patronMapper.toListDto(patronRepository.findAll());
 	}
-	
+
 	public List<PatronDTO> findAllPatronesByLocale(Integer idLocale) {
 		List<PatronDTO> patrones = patronMapper.toListDto(patronRepository.findAll());
-		patrones.forEach(patron -> { 
-			patron.setDescripcion(descripcionService.findByPatronAndLocale(patron.getId(), idLocale));
-			patron.setLeccion(leccionService.findByPatronAndLocale(patron.getId(), idLocale));
-			patron.setProyectos(proyectoService.findByPatron(patron.getId()));
-		});
-		
+		if (patrones != null) {
+			patrones.forEach(patron -> {
+				patron.setDescripciones(descripcionService.findByPatronAndLocale(patron.getId(), idLocale));
+				patron.setLecciones(leccionService.findByPatronAndLocale(patron.getId(), idLocale));
+				patron.setProyectos(proyectoService.findByPatron(patron.getId()));
+			});
+		}
+
 		return patrones;
 	}
-	
+
 	public PatronDTO findById(Integer id) {
-		if(id != null) {
+		if (id != null) {
 			return patronMapper.toDto(patronRepository.findById(id).orElse(new Patron()));
 		}
 		return null;
 	}
-	
+
 	public PatronDTO findByIdAndLocale(Integer id, Integer idLocale) {
 		PatronDTO patron = patronMapper.toDto(patronRepository.findById(id).orElse(new Patron()));
-		if(patron.getId() != null) {
-			patron.setDescripcion(descripcionService.findByPatronAndLocale(patron.getId(), idLocale));
-			patron.setLeccion(leccionService.findByPatronAndLocale(id, idLocale));
+		if (patron.getId() != null) {
+			patron.setDescripciones(descripcionService.findByPatronAndLocale(patron.getId(), idLocale));
+			patron.setLecciones(leccionService.findByPatronAndLocale(id, idLocale));
 			patron.setProyectos(proyectoService.findByPatron(id));
 		}
 		return patron;
+	}
+
+	@Transactional
+	public void deleteById(Integer id) {
+		// Limpiar todos los usuarios que tengan el patron
+		usuarioRepository.updateLastPatronToNull(id);
+		patronRepository.deleteById(id);
+		return;
+	}
+
+	@Transactional
+	public PatronDTO saveOrUpdate(PatronDTO dto, List<MultipartFile> files) {
+		Patron patron = patronMapper.toEntity(dto);
+		// Set de autor
+		Usuario autor = usuarioRepository.findById(dto.getAutor().getId()).orElse(null);
+		if (autor != null) {
+			patron.setAutor(autor);
+		}
+		Patron _patron = patronRepository.save(patron);
+		// Set relaciones
+		dto.getDescripciones().forEach(desc -> {
+			descripcionService.save(desc, _patron);
+		});
+		dto.getLecciones().forEach(lec -> {
+			leccionService.save(lec, _patron);
+		});
+		// Guardado de documentos
+		if (!CollectionUtils.isEmpty(files)) {
+			Set<Proyecto> proyectos = proyectoMapper.toSetEntityFromFile(files);
+			for (Proyecto proyecto : proyectos) {
+				if (proyecto != null) {
+					proyectoService.save(proyecto, _patron);
+				}
+			}
+		}
+		return patronMapper.toDto(patron);
 	}
 }

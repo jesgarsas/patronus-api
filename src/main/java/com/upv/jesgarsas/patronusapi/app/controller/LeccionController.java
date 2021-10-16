@@ -1,5 +1,7 @@
 package com.upv.jesgarsas.patronusapi.app.controller;
 
+import java.util.Set;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -18,7 +20,7 @@ public class LeccionController {
 	private LeccionService leccionService;
 	
 	@GetMapping("/{idPatron}/{idLocale}")
-	public ResponseEntity<LeccionDTO> findByPatronAndLocale(@PathVariable(name = "idPatron", required = true) Integer idPatron,
+	public ResponseEntity<Set<LeccionDTO>> findByPatronAndLocale(@PathVariable(name = "idPatron", required = true) Integer idPatron,
 			@PathVariable(name = "idLocale", required = true) Integer idLocale) {
 		return ResponseEntity.ok(leccionService.findByPatronAndLocale(idPatron, idLocale));
 	}

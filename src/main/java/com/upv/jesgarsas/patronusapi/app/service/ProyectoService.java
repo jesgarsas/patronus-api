@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.upv.jesgarsas.patronusapi.app.model.dto.ProyectoDTO;
+import com.upv.jesgarsas.patronusapi.app.model.entity.Patron;
 import com.upv.jesgarsas.patronusapi.app.model.entity.Proyecto;
 import com.upv.jesgarsas.patronusapi.app.repository.ProyectoRepository;
 import com.upv.jesgarsas.patronusapi.app.service.mapper.ProyectoMapper;
@@ -29,5 +30,10 @@ public class ProyectoService {
 			return proyectoMapper.toDto(proyecto);
 		}
 		return null;
+	}
+	
+	public void save(Proyecto proyecto, Patron patron) {
+		proyecto.setPatron(patron);
+		proyectoRepository.save(proyecto);
 	}
 }

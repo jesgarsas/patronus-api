@@ -1,8 +1,11 @@
 package com.upv.jesgarsas.patronusapi.app.model.dto;
 
 import java.io.Serializable;
-import java.sql.Date;
+import java.time.Instant;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class PatronDTO implements Serializable {
 
@@ -12,15 +15,15 @@ public class PatronDTO implements Serializable {
 	
 	private String nombre;
 	
-	private Date fechaCreacion;
+	private Instant fechaCreacion;
 	
 	private AutorDTO autor;
 	
-	private DescripcionDTO descripcion;
+	private Set<DescripcionDTO> descripciones = new HashSet<>();
 	
-	private List<ProyectoDTO> proyectos;
+	private List<ProyectoDTO> proyectos = new ArrayList<>();
 	
-	private LeccionDTO leccion;
+	private Set<LeccionDTO> lecciones = new HashSet<>();
 
 	public PatronDTO() {
 	}
@@ -56,14 +59,14 @@ public class PatronDTO implements Serializable {
 	/**
 	 * @return the fechaCreacion
 	 */
-	public Date getFechaCreacion() {
+	public Instant getFechaCreacion() {
 		return fechaCreacion;
 	}
 
 	/**
 	 * @param fechaCreacion the fechaCreacion to set
 	 */
-	public void setFechaCreacion(Date fechaCreacion) {
+	public void setFechaCreacion(Instant fechaCreacion) {
 		this.fechaCreacion = fechaCreacion;
 	}
 
@@ -82,20 +85,6 @@ public class PatronDTO implements Serializable {
 	}
 
 	/**
-	 * @return the descripcion
-	 */
-	public DescripcionDTO getDescripcion() {
-		return descripcion;
-	}
-
-	/**
-	 * @param descripcion the descripcion to set
-	 */
-	public void setDescripcion(DescripcionDTO descripcion) {
-		this.descripcion = descripcion;
-	}
-
-	/**
 	 * @return the proyectos
 	 */
 	public List<ProyectoDTO> getProyectos() {
@@ -110,17 +99,32 @@ public class PatronDTO implements Serializable {
 	}
 
 	/**
-	 * @return the leccion
+	 * @return the descripciones
 	 */
-	public LeccionDTO getLeccion() {
-		return leccion;
+	public Set<DescripcionDTO> getDescripciones() {
+		return descripciones;
 	}
 
 	/**
-	 * @param leccion the leccion to set
+	 * @param descripciones the descripciones to set
 	 */
-	public void setLeccion(LeccionDTO leccion) {
-		this.leccion = leccion;
+	public void setDescripciones(Set<DescripcionDTO> descripciones) {
+		this.descripciones = descripciones;
 	}
+
+	/**
+	 * @return the lecciones
+	 */
+	public Set<LeccionDTO> getLecciones() {
+		return lecciones;
+	}
+
+	/**
+	 * @param lecciones the lecciones to set
+	 */
+	public void setLecciones(Set<LeccionDTO> lecciones) {
+		this.lecciones = lecciones;
+	}
+
 	
 }

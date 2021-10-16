@@ -14,6 +14,8 @@ public class ProyectoDTO implements Serializable {
 	
 	private Integer size;
 	
+	private String type;
+	
 	public ProyectoDTO() {}
 
 	/**
@@ -70,6 +72,20 @@ public class ProyectoDTO implements Serializable {
 	 */
 	public void setSize(Integer size) {
 		this.size = size;
+	}
+
+	/**
+	 * @return the type
+	 */
+	public String getType() {
+		return type;
+	}
+
+	/**
+	 * @param type the type to set
+	 */
+	public void setType(String type) {
+		this.type = type;
 	}
 	
 }

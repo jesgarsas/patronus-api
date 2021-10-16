@@ -37,6 +37,13 @@ public abstract class LeccionMapper {
 		return null;
 	}
 	
+	public Set<LeccionDTO> toSetDto(Collection<Leccion> lecciones) {
+		if(lecciones != null && lecciones.size() > 0) {
+			return lecciones.stream().map(leccion -> toDto(leccion)).collect(Collectors.toSet());
+		}
+		return null;
+	}
+	
 	public Set<Leccion> toSetEntity(Collection<LeccionDTO> dtos) {
 		if(dtos != null && dtos.size() > 0) {
 			return dtos.stream().map(dto -> toEntity(dto)).collect(Collectors.toSet());

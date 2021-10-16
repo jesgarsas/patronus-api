@@ -3,10 +3,13 @@ package com.upv.jesgarsas.patronusapi.app.model.entity;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 @Entity
@@ -14,6 +17,8 @@ import javax.persistence.Table;
 public class Proyecto {
 
 	@Id
+	@SequenceGenerator(name = "GEN_SEQ_PROYECTO", allocationSize = 1, sequenceName = "SEQ_PROYECTO")
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "GEN_SEQ_PROYECTO")
 	@Column(name = "id")
 	private Integer id;
 	
@@ -26,6 +31,9 @@ public class Proyecto {
 	
 	@Column(name = "tamanyo")
 	private Integer size;
+	
+	@Column(name = "type")
+	private String type;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "id_patron", referencedColumnName = "id")
@@ -101,6 +109,20 @@ public class Proyecto {
 	 */
 	public void setSize(Integer size) {
 		this.size = size;
+	}
+
+	/**
+	 * @return the type
+	 */
+	public String getType() {
+		return type;
+	}
+
+	/**
+	 * @param type the type to set
+	 */
+	public void setType(String type) {
+		this.type = type;
 	}
 
 	

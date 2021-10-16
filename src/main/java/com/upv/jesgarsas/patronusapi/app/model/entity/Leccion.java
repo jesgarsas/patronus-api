@@ -3,10 +3,13 @@ package com.upv.jesgarsas.patronusapi.app.model.entity;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 @Entity
@@ -14,6 +17,8 @@ import javax.persistence.Table;
 public class Leccion {
 
 	@Id
+	@SequenceGenerator(name = "GEN_SEQ_LECCION", allocationSize = 1, sequenceName = "SEQ_LECCION")
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "GEN_SEQ_LECCION")
 	@Column(name = "id")
 	private Integer id;
 	
