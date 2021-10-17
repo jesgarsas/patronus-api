@@ -1,5 +1,6 @@
 package com.upv.jesgarsas.patronusapi.app.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +22,12 @@ public class ProyectoService {
 	private ProyectoRepository proyectoRepository;
 	
 	public List<ProyectoDTO> findByPatron(Integer idPatron) {
-		return proyectoMapper.toListDto(proyectoRepository.findAllByPatronId(idPatron));
+		List<ProyectoDTO> proyectos = proyectoMapper.toListDto(proyectoRepository.findAllByPatronId(idPatron));
+		return proyectos == null ? new ArrayList<ProyectoDTO>() : proyectos;
+	}
+	
+	public List<Proyecto> findByPatron(Patron patron) {
+		return proyectoRepository.findAllByPatronId(patron.getId());
 	}
 	
 	public ProyectoDTO findById(Integer id) {
@@ -35,5 +41,9 @@ public class ProyectoService {
 	public void save(Proyecto proyecto, Patron patron) {
 		proyecto.setPatron(patron);
 		proyectoRepository.save(proyecto);
+	}
+	
+	public void delete(Proyecto proyecto) {
+		proyectoRepository.delete(proyecto);
 	}
 }

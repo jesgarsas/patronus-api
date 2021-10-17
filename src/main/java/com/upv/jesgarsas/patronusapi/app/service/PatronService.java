@@ -1,7 +1,10 @@
 package com.upv.jesgarsas.patronusapi.app.service;
 
+
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
+
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -101,6 +104,22 @@ public class PatronService {
 			leccionService.save(lec, _patron);
 		});
 		// Guardado de documentos
+		if(patron.getId() != null) {
+			List<Integer> idsOldDocs = dto.getProyectos().stream().map(proyecto -> proyecto.getId()).collect(Collectors.toList());
+			List<Proyecto> oldProyectos = proyectoService.findByPatron(patron);
+			boolean borrar = true;
+			for (Proyecto oldProyecto : oldProyectos) {
+				for (Integer id : idsOldDocs) {
+					if (oldProyecto.getId().equals(id)) {
+						borrar = false;
+						break;
+					}
+				}
+				if (borrar) {
+					proyectoService.delete(oldProyecto);
+				}
+			}
+		}
 		if (!CollectionUtils.isEmpty(files)) {
 			Set<Proyecto> proyectos = proyectoMapper.toSetEntityFromFile(files);
 			for (Proyecto proyecto : proyectos) {
