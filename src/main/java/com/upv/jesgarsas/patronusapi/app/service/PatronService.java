@@ -8,18 +8,26 @@ import java.util.stream.Collectors;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.upv.jesgarsas.patronusapi.app.model.dto.PagePatronDTO;
 import com.upv.jesgarsas.patronusapi.app.model.dto.PatronDTO;
+import com.upv.jesgarsas.patronusapi.app.model.dto.PatronFilterDTO;
 import com.upv.jesgarsas.patronusapi.app.model.entity.Patron;
 import com.upv.jesgarsas.patronusapi.app.model.entity.Proyecto;
 import com.upv.jesgarsas.patronusapi.app.model.entity.Usuario;
 import com.upv.jesgarsas.patronusapi.app.repository.PatronRepository;
 import com.upv.jesgarsas.patronusapi.app.repository.UsuarioRepository;
+import com.upv.jesgarsas.patronusapi.app.repository.sorting.PatronSorting;
 import com.upv.jesgarsas.patronusapi.app.service.mapper.PatronMapper;
 import com.upv.jesgarsas.patronusapi.app.service.mapper.ProyectoMapper;
+
 
 @Service
 public class PatronService {
@@ -47,6 +55,17 @@ public class PatronService {
 
 	public List<PatronDTO> findAllPatrones() {
 		return patronMapper.toListDto(patronRepository.findAll());
+	}
+	
+	public PagePatronDTO findAllPatronesPageable(PatronFilterDTO filter) {
+		Pageable params = PageRequest.of(filter.getPageNumber(), filter.getSize(), PatronSorting.getSorting(filter));
+
+		Page<Patron> page = patronRepository.findAll(params);
+		PagePatronDTO result = new PagePatronDTO();
+		page.getContent().forEach(patron -> { result.getPatrones().add(patronMapper.toDto(patron)); });
+		result.setTotalElements(page.getTotalElements());
+		result.setTotalPages(page.getTotalPages());
+		return result;
 	}
 
 	public List<PatronDTO> findAllPatronesByLocale(Integer idLocale) {

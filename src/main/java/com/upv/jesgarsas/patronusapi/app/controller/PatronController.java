@@ -9,11 +9,14 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.upv.jesgarsas.patronusapi.app.model.dto.PagePatronDTO;
 import com.upv.jesgarsas.patronusapi.app.model.dto.PatronDTO;
+import com.upv.jesgarsas.patronusapi.app.model.dto.PatronFilterDTO;
 import com.upv.jesgarsas.patronusapi.app.service.PatronService;
 
 @Controller
@@ -26,6 +29,11 @@ public class PatronController {
 	@GetMapping("/all")
 	public ResponseEntity<List<PatronDTO>> findAllPatrones() {
 		return ResponseEntity.ok(patronService.findAllPatrones());
+	}
+	
+	@PostMapping("/all/filtered")
+	public ResponseEntity<PagePatronDTO> findAllPatronesFiltered(@RequestBody(required = true) PatronFilterDTO filter) {
+		return ResponseEntity.ok(patronService.findAllPatronesPageable(filter));
 	}
 	
 	@GetMapping("/all/{idLocale}")
