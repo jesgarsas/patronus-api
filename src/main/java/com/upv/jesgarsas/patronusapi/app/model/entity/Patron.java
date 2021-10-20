@@ -42,6 +42,9 @@ public class Patron {
 	
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "patron", cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.REMOVE})
 	private Set<Descripcion> descripciones = new HashSet<>();
+	
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "patron", cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.REMOVE})
+	private Set<Proyecto> proyectos = new HashSet<>();
 
 	public Patron() {
 	}
@@ -128,6 +131,20 @@ public class Patron {
 	 */
 	public void setDescripciones(Set<Descripcion> descripciones) {
 		this.descripciones = descripciones;
+	}
+
+	/**
+	 * @return the proyectos
+	 */
+	public Set<Proyecto> getProyectos() {
+		return proyectos;
+	}
+
+	/**
+	 * @param proyectos the proyectos to set
+	 */
+	public void setProyectos(Set<Proyecto> proyectos) {
+		this.proyectos = proyectos;
 	}
 
 }

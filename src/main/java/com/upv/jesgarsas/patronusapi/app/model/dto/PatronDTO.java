@@ -23,7 +23,11 @@ public class PatronDTO implements Serializable {
 	
 	private List<ProyectoDTO> proyectos = new ArrayList<>();
 	
+	private Integer proyectosCount = 0;
+	
 	private Set<LeccionDTO> lecciones = new HashSet<>();
+	
+	private Integer leccionesCount = 0;
 
 	public PatronDTO() {
 	}
@@ -124,6 +128,34 @@ public class PatronDTO implements Serializable {
 	 */
 	public void setLecciones(Set<LeccionDTO> lecciones) {
 		this.lecciones = lecciones;
+	}
+	
+	/**
+	 * @return the proyectosCount
+	 */
+	public Integer getProyectosCount() {
+		return proyectosCount;
+	}
+
+	/**
+	 * @param proyectosCount the proyectosCount to set
+	 */
+	public void setProyectosCount(Integer proyectosCount) {
+		this.proyectosCount = proyectosCount;
+	}
+
+	/**
+	 * @return the leccionesCount
+	 */
+	public Integer getLeccionesCount() {
+		return leccionesCount;
+	}
+
+	/**
+	 * @param leccionesCount the leccionesCount to set
+	 */
+	public void setLeccionesCount(Integer leccionesCount) {
+		this.leccionesCount = leccionesCount;
 	}
 
 	

@@ -30,10 +30,14 @@ public class ProyectoService {
 
 	public List<ProyectoDTO> findByPatron(Integer idPatron) {
 		List<ProyectoDTO> proyectos = proyectoMapper.toListDto(proyectoRepository.findAllByPatronId(idPatron));
-		proyectos.forEach(proyecto -> {
-			proyecto.setLink(getUrlProyecto(proyecto));
-		});
-		return proyectos == null ? new ArrayList<ProyectoDTO>() : proyectos;
+		if (proyectos != null) {
+			proyectos.forEach(proyecto -> {
+				proyecto.setLink(getUrlProyecto(proyecto));
+			});
+			return proyectos;
+		}
+		
+		return new ArrayList<ProyectoDTO>();
 	}
 
 	public List<Proyecto> findByPatron(Patron patron) {

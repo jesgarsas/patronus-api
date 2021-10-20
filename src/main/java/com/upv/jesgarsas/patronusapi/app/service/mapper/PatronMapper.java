@@ -31,7 +31,9 @@ public abstract class PatronMapper {
 		@Mapping(target = "autor", expression = "java(autorMapper.toDto(patron.getAutor()))"),
 		@Mapping(target = "descripciones", expression = "java(descripcionMapper.toSetDto(patron.getDescripciones()))"),
 		@Mapping(target = "lecciones", ignore = true),
-		@Mapping(target = "proyectos", ignore = true)})
+		@Mapping(target = "proyectos", ignore = true),
+		@Mapping(target = "leccionesCount", expression = "java(patron.getLecciones() != null ? patron.getLecciones().size() : 0)"),
+		@Mapping(target = "proyectosCount", expression = "java(patron.getProyectos() != null ? patron.getProyectos().size() : 0)")})
 	public abstract PatronDTO toDto(Patron patron);
 	
 	@Mappings({@Mapping(target = "id", expression = "java(patron.getId())"),
@@ -39,7 +41,8 @@ public abstract class PatronMapper {
 		@Mapping(target = "fechaCreacion", expression = "java(patron.getFechaCreacion())"),
 		@Mapping(target = "autor", ignore = true),
 		@Mapping(target = "descripciones", ignore = true),
-		@Mapping(target = "lecciones", ignore = true)})
+		@Mapping(target = "lecciones", ignore = true),
+		@Mapping(target = "proyectos", ignore = true)})
 	public abstract Patron toEntity(PatronDTO patron);
 	
 	public List<PatronDTO> toListDto(Collection<Patron> patron) {
