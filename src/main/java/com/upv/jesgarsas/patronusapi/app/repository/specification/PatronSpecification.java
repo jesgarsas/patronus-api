@@ -19,9 +19,11 @@ public class PatronSpecification implements Specification<Patron> {
 	
 	public final static String NOMBRE_COLUMNA = "nombre";
 	
-	public final static String FECHACREACION_COLUMNA = "fecha_creacion";
+	public final static String FECHACREACION_COLUMNA = "fechaCreacion";
 
 	public final static String AUTOR_COLUMNA = "autor";
+	
+	public final static String AUTOR_NICK_COLUMNA = "nick";
 	
 	private PatronFilterDTO dto;
 	
@@ -35,6 +37,12 @@ public class PatronSpecification implements Specification<Patron> {
 		// Filtros
 		if (dto.getName() != null) {
 			predicates.add(criteriaBuilder.and(criteriaBuilder.like(criteriaBuilder.lower(root.get(NOMBRE_COLUMNA)), "%" + dto.getName().toLowerCase() + "%")));
+		}
+		if (dto.getAutor() != null) {
+			predicates.add(criteriaBuilder.and(criteriaBuilder.like(criteriaBuilder.lower(root.get(AUTOR_COLUMNA).get(AUTOR_NICK_COLUMNA)), "%" + dto.getAutor().toLowerCase() + "%")));
+		}
+		if (dto.getDateIni() != null && dto.getDateFin() != null) {
+			predicates.add(criteriaBuilder.and(criteriaBuilder.between(root.get(FECHACREACION_COLUMNA), dto.getDateIni(), dto.getDateFin())));
 		}
 		// Sorting
 		String column = NOMBRE_COLUMNA;
