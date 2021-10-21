@@ -10,7 +10,7 @@ import javax.persistence.criteria.Root;
 
 import org.springframework.data.jpa.domain.Specification;
 
-import com.upv.jesgarsas.patronusapi.app.model.dto.PatronFilterDTO;
+import com.upv.jesgarsas.patronusapi.app.model.dto.filter.PatronFilterDTO;
 import com.upv.jesgarsas.patronusapi.app.model.entity.Patron;
 
 public class PatronSpecification implements Specification<Patron> {

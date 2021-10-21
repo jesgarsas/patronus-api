@@ -1,12 +1,6 @@
-package com.upv.jesgarsas.patronusapi.app.model.dto;
+package com.upv.jesgarsas.patronusapi.app.model.dto.filter;
 
-import java.io.Serializable;
-
-public class PatronFilterDTO implements Serializable {
-
-	private static final long serialVersionUID = 1L;
-	
-	private String name;
+public abstract class IFilterDTO {
 	
 	private Integer size;
 	
@@ -15,24 +9,6 @@ public class PatronFilterDTO implements Serializable {
 	private String column;
 	
 	private String sort;
-	
-	public PatronFilterDTO() {
-		
-	}
-
-	/**
-	 * @return the name
-	 */
-	public String getName() {
-		return name;
-	}
-
-	/**
-	 * @param name the name to set
-	 */
-	public void setName(String name) {
-		this.name = name;
-	}
 
 	/**
 	 * @return the size
@@ -89,6 +65,5 @@ public class PatronFilterDTO implements Serializable {
 	public void setSort(String sort) {
 		this.sort = sort;
 	}
-	
-	
+
 }

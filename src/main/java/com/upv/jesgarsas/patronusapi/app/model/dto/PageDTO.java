@@ -4,32 +4,32 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PagePatronDTO implements Serializable {
+public class PageDTO<E> implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	
-	private List<PatronDTO> patrones = new ArrayList<>();
+	private List<E> content = new ArrayList<>();
 	
 	private Long totalElements;
 	
 	private Integer totalPages;
 	
-	public PagePatronDTO() {
+	public PageDTO() {
 		
 	}
 
 	/**
-	 * @return the patrones
+	 * @return the content
 	 */
-	public List<PatronDTO> getPatrones() {
-		return patrones;
+	public List<E> getContent() {
+		return content;
 	}
 
 	/**
-	 * @param patrones the patrones to set
+	 * @param content the content to set
 	 */
-	public void setPatrones(List<PatronDTO> patrones) {
-		this.patrones = patrones;
+	public void setContent(List<E> content) {
+		this.content = content;
 	}
 
 	/**
@@ -59,6 +59,4 @@ public class PagePatronDTO implements Serializable {
 	public void setTotalPages(Integer totalPages) {
 		this.totalPages = totalPages;
 	}
-	
-	
 }

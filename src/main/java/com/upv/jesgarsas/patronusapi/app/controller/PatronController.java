@@ -14,9 +14,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.upv.jesgarsas.patronusapi.app.model.dto.PagePatronDTO;
+import com.upv.jesgarsas.patronusapi.app.model.dto.PageDTO;
 import com.upv.jesgarsas.patronusapi.app.model.dto.PatronDTO;
-import com.upv.jesgarsas.patronusapi.app.model.dto.PatronFilterDTO;
+import com.upv.jesgarsas.patronusapi.app.model.dto.filter.PatronFilterDTO;
 import com.upv.jesgarsas.patronusapi.app.service.PatronService;
 
 @Controller
@@ -32,7 +32,7 @@ public class PatronController {
 	}
 	
 	@PostMapping("/all/filtered")
-	public ResponseEntity<PagePatronDTO> findAllPatronesFiltered(@RequestBody(required = true) PatronFilterDTO filter) {
+	public ResponseEntity<PageDTO<PatronDTO>> findAllPatronesFiltered(@RequestBody(required = true) PatronFilterDTO filter) {
 		return ResponseEntity.ok(patronService.findAllPatronesPageable(filter));
 	}
 	

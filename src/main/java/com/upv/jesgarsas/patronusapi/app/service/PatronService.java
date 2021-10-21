@@ -15,9 +15,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.upv.jesgarsas.patronusapi.app.model.dto.PagePatronDTO;
+import com.upv.jesgarsas.patronusapi.app.model.dto.PageDTO;
 import com.upv.jesgarsas.patronusapi.app.model.dto.PatronDTO;
-import com.upv.jesgarsas.patronusapi.app.model.dto.PatronFilterDTO;
+import com.upv.jesgarsas.patronusapi.app.model.dto.filter.PatronFilterDTO;
 import com.upv.jesgarsas.patronusapi.app.model.entity.Patron;
 import com.upv.jesgarsas.patronusapi.app.model.entity.Proyecto;
 import com.upv.jesgarsas.patronusapi.app.model.entity.Usuario;
@@ -56,15 +56,15 @@ public class PatronService {
 		return patronMapper.toListDto(patronRepository.findAll());
 	}
 	
-	public PagePatronDTO findAllPatronesPageable(PatronFilterDTO filter) {
+	public PageDTO<PatronDTO> findAllPatronesPageable(PatronFilterDTO filter) {
 		Pageable params = PageRequest.of(filter.getPageNumber(), filter.getSize());
 
 		Page<Patron> page = patronRepository.findAll(new PatronSpecification(filter), params);
-		PagePatronDTO result = new PagePatronDTO();
+		PageDTO<PatronDTO> result = new PageDTO<>();
 		page.getContent().forEach(patron -> { 
 			patron.getDescripciones();
 			PatronDTO dto = patronMapper.toDto(patron);
-			result.getPatrones().add(dto);
+			result.getContent().add(dto);
 		});
 		result.setTotalElements(page.getTotalElements());
 		result.setTotalPages(page.getTotalPages());
