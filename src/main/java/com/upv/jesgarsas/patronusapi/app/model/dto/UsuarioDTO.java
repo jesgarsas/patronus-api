@@ -20,6 +20,8 @@ public class UsuarioDTO implements Serializable {
 	private String password;
 	
 	private Integer lastPatron;
+	
+	private String token;
 
 	/**
 	 * 
@@ -126,6 +128,20 @@ public class UsuarioDTO implements Serializable {
 	 */
 	public void setLastPatron(Integer lastPatron) {
 		this.lastPatron = lastPatron;
+	}
+
+	/**
+	 * @return the token
+	 */
+	public String getToken() {
+		return token;
+	}
+
+	/**
+	 * @param token the token to set
+	 */
+	public void setToken(String token) {
+		this.token = token;
 	}
 	
 	

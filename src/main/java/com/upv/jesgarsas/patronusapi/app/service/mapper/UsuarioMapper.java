@@ -20,7 +20,8 @@ public abstract class UsuarioMapper {
 		@Mapping(target = "rolId", expression = "java(usuario.getRolId())"),
 		@Mapping(target = "nick", expression = "java(usuario.getNick())"),
 		@Mapping(target = "password", expression = "java(usuario.getPassword())"),
-		@Mapping(target = "lastPatron", expression = "java(usuario.getLastPatron())")})
+		@Mapping(target = "lastPatron", expression = "java(usuario.getLastPatron())"),
+		@Mapping(target = "token", ignore = true)})
 	public abstract UsuarioDTO toDto(Usuario usuario);
 	
 	@Mappings({@Mapping(target = "id", expression = "java(usuario.getId())"),
