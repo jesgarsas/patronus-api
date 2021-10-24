@@ -28,7 +28,8 @@ public class Usuario {
 	@Column(name = "nick", length = 100)
 	private String nick;
 	
-	@Column(name = "password", length = 100)
+	// @Column(name = "password", length = 100)
+	@Transient
 	private String password;
 	
 	@Transient

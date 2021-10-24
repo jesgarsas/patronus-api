@@ -25,11 +25,15 @@ public class UsuarioController {
 
 	@PostMapping("/login")
 	public ResponseEntity<UsuarioDTO> login(@RequestParam(name = "nick") String nick, @RequestParam("password") String password) {
-		String token = JwtService.getJWTToken(nick);
-		UsuarioDTO user = new UsuarioDTO();
-		user.setNick(nick);
-		user.setToken(token);
-		return ResponseEntity.ok(user);
+		if (usuarioService.comparePassword(nick, password)) {
+			String token = JwtService.getJWTToken(nick);
+			UsuarioDTO user = new UsuarioDTO();
+			user.setNick(nick);
+			user.setToken(token);
+			return ResponseEntity.ok(user);
+			
+		}
+		return ResponseEntity.notFound().build();
 	}
 
 	@GetMapping("/all")

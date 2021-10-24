@@ -19,7 +19,7 @@ public abstract class UsuarioMapper {
 		@Mapping(target = "email", expression = "java(usuario.getEmail())"),
 		@Mapping(target = "rolId", expression = "java(usuario.getRolId())"),
 		@Mapping(target = "nick", expression = "java(usuario.getNick())"),
-		@Mapping(target = "password", expression = "java(usuario.getPassword())"),
+		@Mapping(target = "password", ignore = true),
 		@Mapping(target = "lastPatron", expression = "java(usuario.getLastPatron())"),
 		@Mapping(target = "token", ignore = true)})
 	public abstract UsuarioDTO toDto(Usuario usuario);

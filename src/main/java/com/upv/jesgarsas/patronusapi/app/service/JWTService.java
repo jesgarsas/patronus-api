@@ -3,6 +3,7 @@ package com.upv.jesgarsas.patronusapi.app.service;
 import java.util.Base64;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 import javax.crypto.spec.SecretKeySpec;
@@ -28,6 +29,8 @@ public class JWTService {
 	private static final String SECRET_KEY = "076e428464e2454a0a66d4603be4601a565e284ac81a53fd55df607e6837a1f5";
 	
 	private static final Logger LOG = LoggerFactory.getLogger(JWTService.class);
+	
+	private static final long EXPIRATION_TIME = TimeUnit.DAYS.toMillis(1);
 
 	public String getJWTToken(String username) {
 		List<GrantedAuthority> grantedAuthorities = AuthorityUtils.commaSeparatedStringToAuthorityList("ROLE_USER");
@@ -36,7 +39,7 @@ public class JWTService {
 				.claim("authorities",
 						grantedAuthorities.stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()))
 				.setIssuedAt(new Date(System.currentTimeMillis()))
-				.setExpiration(new Date(System.currentTimeMillis() + 600000))
+				.setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
 				.signWith(getHmacKey()).compact();
 
 		return token;

@@ -21,4 +21,13 @@ public class UsuarioService {
 	public List<UsuarioDTO> findAllUsuarios() {
 		return usuarioMapper.toListDto(usuarioRepository.findAll());
 	}
+
+	/**
+	 * Comprueba que la password enviada sea la misma que la BD
+	 * @param password
+	 * @return true si es identica, false si es falta
+	 */
+	public boolean comparePassword(String nick, String password) {
+		return usuarioRepository.existUserWithNickPassword(nick, password) == 1;
+	}
 }
