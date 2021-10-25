@@ -15,6 +15,7 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Integer>  {
 	@Query(value = "UPDATE Usuario SET LAST_PATRON = NULL WHERE LAST_PATRON = :id", nativeQuery = true)
 	public void updateLastPatronToNull(@Param("id") Integer id);
 
-	@Query(value = "SELECT COUNT(*) FROM Usuario u WHERE u.nick = :nick and u.password = :password", nativeQuery = true)
-	public Integer existUserWithNickPassword(String nick, String password);
+	@Query(value = "SELECT id, nick, email, rol_id, last_patron FROM Usuario WHERE nick = :nick AND password = :password", nativeQuery = true)
+	public Usuario findByNickAndPassword(String nick, String password);
+
 }

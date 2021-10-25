@@ -1,6 +1,7 @@
 package com.upv.jesgarsas.patronusapi.app.model.dto.filter;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -52,8 +53,8 @@ public class JWTAuthorizationFilter extends OncePerRequestFilter {
 	 * @param claims
 	 */
 	private void setUpSpringAuthentication(Claims claims) {
-		@SuppressWarnings("unchecked")
-		List<String> authorities = (List<String>) claims.get("authorities");
+		List<String> authorities = new ArrayList<>();
+		authorities.add((String) claims.get("authorities"));
 
 		UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(claims.getSubject(), null,
 				authorities.stream().map(SimpleGrantedAuthority::new).collect(Collectors.toList()));

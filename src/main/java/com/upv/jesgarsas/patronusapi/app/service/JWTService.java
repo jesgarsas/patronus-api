@@ -2,18 +2,15 @@ package com.upv.jesgarsas.patronusapi.app.service;
 
 import java.util.Base64;
 import java.util.Date;
-import java.util.List;
 import java.util.concurrent.TimeUnit;
-import java.util.stream.Collectors;
-
 import javax.crypto.spec.SecretKeySpec;
 import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.stereotype.Service;
+
+import com.upv.jesgarsas.patronusapi.app.utils.RolTypes;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -32,12 +29,10 @@ public class JWTService {
 	
 	private static final long EXPIRATION_TIME = TimeUnit.DAYS.toMillis(1);
 
-	public String getJWTToken(String username) {
-		List<GrantedAuthority> grantedAuthorities = AuthorityUtils.commaSeparatedStringToAuthorityList("ROLE_USER");
+	public String getJWTToken(String username, Integer rol) {
 
 		String token = Jwts.builder().setId("patronusLogin").setSubject(username)
-				.claim("authorities",
-						grantedAuthorities.stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()))
+				.claim("authorities", RolTypes.getRolById(rol))
 				.setIssuedAt(new Date(System.currentTimeMillis()))
 				.setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
 				.signWith(getHmacKey()).compact();

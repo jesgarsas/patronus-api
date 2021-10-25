@@ -25,9 +25,9 @@ public class UsuarioController {
 
 	@PostMapping("/login")
 	public ResponseEntity<UsuarioDTO> login(@RequestParam(name = "nick") String nick, @RequestParam("password") String password) {
-		if (usuarioService.comparePassword(nick, password)) {
-			String token = JwtService.getJWTToken(nick);
-			UsuarioDTO user = new UsuarioDTO();
+		UsuarioDTO user = usuarioService.comparePassword(nick, password);
+		if (user != null) {
+			String token = JwtService.getJWTToken(user.getNick(), user.getRolId());
 			user.setNick(nick);
 			user.setToken(token);
 			return ResponseEntity.ok(user);

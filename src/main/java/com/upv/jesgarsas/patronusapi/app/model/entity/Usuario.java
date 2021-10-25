@@ -22,7 +22,7 @@ public class Usuario {
 	@Column(name = "email", length = 100)
 	private String email;
 	
-	@Transient
+	@Column(name = "rol_id")
 	private Integer rolId;
 	
 	@Column(name = "nick", length = 100)
@@ -32,7 +32,7 @@ public class Usuario {
 	@Transient
 	private String password;
 	
-	@Transient
+	@Column(name = "last_patron")
 	private Integer lastPatron;
 
 	/**
