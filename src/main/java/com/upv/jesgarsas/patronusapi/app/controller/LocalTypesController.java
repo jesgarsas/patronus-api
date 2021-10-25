@@ -19,12 +19,12 @@ public class LocalTypesController {
 	@Autowired
 	private LocalTypesService localTypesService;
 	
-	@GetMapping("/all")
+	@GetMapping("/alumno/all")
 	public ResponseEntity<List<LocalTypesDTO>> findAll() {
 		return ResponseEntity.ok(localTypesService.findAll());
 	}
 	
-	@GetMapping("/{id}")
+	@GetMapping("/alumno/{id}")
 	public ResponseEntity<LocalTypesDTO> findById(@PathVariable(name = "id", required = true) Integer id) {
 		return ResponseEntity.ok(localTypesService.findById(id));
 	}

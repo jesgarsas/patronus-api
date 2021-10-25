@@ -25,13 +25,13 @@ public class ProyectoController {
 	@Autowired
 	private ProyectoService proyectoService;
 
-	@GetMapping(value = "/{idPatron}")
+	@GetMapping(value = "/alumno/{idPatron}")
 	public ResponseEntity<List<ProyectoDTO>> findByPatron(
 			@PathVariable(name = "idPatron", required = true) Integer idPatron) {
 		return ResponseEntity.ok(proyectoService.findByPatron(idPatron));
 	}
 
-	@GetMapping(value = "/download/{id}")
+	@GetMapping(value = "/alumno/download/{id}")
 	public ResponseEntity<InputStreamResource> findById(@PathVariable(name = "id", required = true) Integer id)
 			throws Exception {
 

@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,39 +27,39 @@ public class PatronController {
 	@Autowired
 	private PatronService patronService;
 	
-	@GetMapping("/all")
+	@GetMapping("/alumno/all")
 	public ResponseEntity<List<PatronDTO>> findAllPatrones() {
 		return ResponseEntity.ok(patronService.findAllPatrones());
 	}
 	
-	@PostMapping("/all/filtered")
+	@PostMapping("/alumno/all/filtered")
 	public ResponseEntity<PageDTO<PatronDTO>> findAllPatronesFiltered(@RequestBody(required = true) PatronFilterDTO filter) {
 		return ResponseEntity.ok(patronService.findAllPatronesPageable(filter));
 	}
 	
-	@GetMapping("/all/{idLocale}")
+	@GetMapping("/alumno/all/{idLocale}")
 	public ResponseEntity<List<PatronDTO>> findAllPatrones(@PathVariable(name = "idLocale", required = true) Integer idLocale) {
 		return ResponseEntity.ok(patronService.findAllPatronesByLocale(idLocale));
 	}
 	
-	@GetMapping("/{id}")
+	@GetMapping("/alumno/{id}")
 	public ResponseEntity<PatronDTO> findById(@PathVariable(name = "id", required = true) Integer id) {
 		return ResponseEntity.ok(patronService.findById(id));
 	}
 	
-	@GetMapping("/{idPatron}/{idLocale}")
+	@GetMapping("/alumno/{idPatron}/{idLocale}")
 	public ResponseEntity<PatronDTO> findByIdAndLocale(@PathVariable(name = "idPatron", required = true) Integer id,
 			@PathVariable(name = "idLocale", required = true) Integer idLocale) {
 		return ResponseEntity.ok(patronService.findByIdAndLocale(id, idLocale));
 	}
 	
-	@DeleteMapping("/{id}") 
+	@DeleteMapping("/profesor/{id}") 
 	public ResponseEntity<Boolean> deleteById(@PathVariable(name = "id", required = true) Integer id){
 		patronService.deleteById(id);
 		return ResponseEntity.ok(true);
 	}
 	
-	@PostMapping("/save")
+	@PostMapping("/profesor/save")
 	public ResponseEntity<Boolean> save(@RequestPart(name="patron", required = true) PatronDTO patron,
 			@RequestPart(name="files", required = false) List<MultipartFile> files) {
 		PatronDTO newPatron = patronService.saveOrUpdate(patron, files);

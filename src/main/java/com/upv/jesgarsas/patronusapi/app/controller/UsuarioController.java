@@ -36,7 +36,7 @@ public class UsuarioController {
 		return ResponseEntity.notFound().build();
 	}
 
-	@GetMapping("/all")
+	@GetMapping("/profesor/all")
 	public ResponseEntity<List<UsuarioDTO>> findAllUsuarios() {
 		return ResponseEntity.ok(usuarioService.findAllUsuarios());
 	}

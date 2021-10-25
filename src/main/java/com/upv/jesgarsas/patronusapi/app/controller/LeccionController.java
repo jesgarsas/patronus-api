@@ -19,7 +19,7 @@ public class LeccionController {
 	@Autowired
 	private LeccionService leccionService;
 	
-	@GetMapping("/{idPatron}/{idLocale}")
+	@GetMapping("/alumno/{idPatron}/{idLocale}")
 	public ResponseEntity<Set<LeccionDTO>> findByPatronAndLocale(@PathVariable(name = "idPatron", required = true) Integer idPatron,
 			@PathVariable(name = "idLocale", required = true) Integer idLocale) {
 		return ResponseEntity.ok(leccionService.findByPatronAndLocale(idPatron, idLocale));
