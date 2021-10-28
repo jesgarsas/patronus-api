@@ -1,6 +1,7 @@
 package com.upv.jesgarsas.patronusapi.app.model.dto.filter;
 
 import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 
 public class PatronFilterDTO extends IFilterDTO  {
 	
@@ -68,6 +69,15 @@ public class PatronFilterDTO extends IFilterDTO  {
 	 */
 	public void setDateFin(Instant dateFin) {
 		this.dateFin = dateFin;
+	}
+	
+	/**
+	 * Añade el tiempo para el ultimo instante del dia
+	 */
+	public void addTimeToDateFin() {
+		if (dateFin != null) {
+		this.dateFin = this.dateFin.plus(23, ChronoUnit.HOURS).plus(59, ChronoUnit.MINUTES).plus(59, ChronoUnit.SECONDS);
+		}
 	}
 	
 }

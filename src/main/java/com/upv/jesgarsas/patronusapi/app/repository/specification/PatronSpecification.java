@@ -41,8 +41,13 @@ public class PatronSpecification implements Specification<Patron> {
 		if (dto.getAutor() != null) {
 			predicates.add(criteriaBuilder.and(criteriaBuilder.like(criteriaBuilder.lower(root.get(AUTOR_COLUMNA).get(AUTOR_NICK_COLUMNA)), "%" + dto.getAutor().toLowerCase() + "%")));
 		}
+		dto.addTimeToDateFin();
 		if (dto.getDateIni() != null && dto.getDateFin() != null) {
-			predicates.add(criteriaBuilder.and(criteriaBuilder.between(root.get(FECHACREACION_COLUMNA), dto.getDateIni(), dto.getDateFin())));
+			predicates.add(criteriaBuilder.and(criteriaBuilder.between(root.get(FECHACREACION_COLUMNA), dto.getDateIni(), (dto.getDateFin()))));
+		} else if (dto.getDateIni() != null){
+			predicates.add(criteriaBuilder.and(criteriaBuilder.greaterThanOrEqualTo(root.get(FECHACREACION_COLUMNA), dto.getDateIni())));
+		} else if (dto.getDateFin() != null) {
+			predicates.add(criteriaBuilder.and(criteriaBuilder.lessThanOrEqualTo(root.get(FECHACREACION_COLUMNA), dto.getDateFin())));
 		}
 		// Sorting
 		String column = NOMBRE_COLUMNA;
