@@ -26,6 +26,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.mvcMatchers("**/profesor/**").hasAnyAuthority(RolTypes.PROFESOR, RolTypes.ADMINISTRADOR)
 				.mvcMatchers("**/administrador/**").hasAnyAuthority(RolTypes.ADMINISTRADOR)
 				.mvcMatchers(HttpMethod.POST, "**/usuario/login").permitAll()
+				.mvcMatchers(HttpMethod.GET, "**/proyecto/download/**").permitAll()
 				.anyRequest()
 				.authenticated();
 	}

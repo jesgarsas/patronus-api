@@ -31,7 +31,7 @@ public class ProyectoController {
 		return ResponseEntity.ok(proyectoService.findByPatron(idPatron));
 	}
 
-	@GetMapping(value = "/alumno/download/{id}")
+	@GetMapping(value = "/download/{id}")
 	public ResponseEntity<InputStreamResource> findById(@PathVariable(name = "id", required = true) Integer id)
 			throws Exception {
 
