@@ -17,5 +17,8 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Integer>  {
 
 	@Query(value = "SELECT id, nick, email, rol_id, last_patron FROM Usuario WHERE nick = :nick AND password = :password", nativeQuery = true)
 	public Usuario findByNickAndPassword(String nick, String password);
+	
+	@Query(value = "SELECT id, nick, email, rol_id, last_patron FROM Usuario WHERE id = :id", nativeQuery = true)
+	public Usuario findByIdWithoutPassword(Integer id);
 
 }

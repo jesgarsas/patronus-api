@@ -10,6 +10,7 @@ import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
 
 import com.upv.jesgarsas.patronusapi.app.model.dto.UsuarioDTO;
+import com.upv.jesgarsas.patronusapi.app.model.dto.UsuarioDetailsDTO;
 import com.upv.jesgarsas.patronusapi.app.model.entity.Usuario;
 
 @Mapper(componentModel = "spring")
@@ -45,4 +46,17 @@ public abstract class UsuarioMapper {
 		}
 		return null;
 	}
+	
+	@Mappings({@Mapping(target = "id", source = "id"),
+		@Mapping(target = "email", source = "email"),
+		@Mapping(target = "rolId", source = "rolId"),
+		@Mapping(target = "nick", source = "nick"),
+		@Mapping(target = "password", ignore = true),
+		@Mapping(target = "lastPatron", ignore = true),
+		@Mapping(target = "token", ignore = true),
+		@Mapping(target = "profesor", ignore = true),
+		@Mapping(target = "profesorEmail", ignore = true),
+		@Mapping(target = "grupo", ignore = true),
+		@Mapping(target = "grupos", ignore = true)})
+	public abstract UsuarioDetailsDTO toDtoDetails(Usuario usuario);
 }

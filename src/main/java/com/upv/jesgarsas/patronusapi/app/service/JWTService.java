@@ -29,10 +29,11 @@ public class JWTService {
 	
 	private static final long EXPIRATION_TIME = TimeUnit.DAYS.toMillis(1);
 
-	public String getJWTToken(String username, Integer rol) {
+	public String getJWTToken(String username, Integer rol, Integer id) {
 
 		String token = Jwts.builder().setId("patronusLogin").setSubject(username)
 				.claim("authorities", RolTypes.getRolById(rol))
+				.claim("id", id)
 				.setIssuedAt(new Date(System.currentTimeMillis()))
 				.setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
 				.signWith(getHmacKey()).compact();
@@ -56,6 +57,15 @@ public class JWTService {
 			// LOG.error("Illegal Arguments passed to JWT auth");
 		}
 		return null;
+	}
+	
+	public boolean isSameIdUser(String jwtToken, Integer id) {
+		Claims claims = Jwts.parserBuilder().setSigningKey(getHmacKey()).build().parseClaimsJws(jwtToken).getBody();
+		try {
+			return claims.containsKey("id") && (((Integer) claims.get("id")).equals(id) || ((String) claims.get("authorities")).equals(RolTypes.ADMINISTRADOR));
+		} catch (Exception e) {
+			return false;
+		}
 	}
 
 	private static SecretKeySpec getHmacKey() {
