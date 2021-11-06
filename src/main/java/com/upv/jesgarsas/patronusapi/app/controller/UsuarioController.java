@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.upv.jesgarsas.patronusapi.app.model.dto.UsuarioDTO;
@@ -50,9 +51,18 @@ public class UsuarioController {
 	
 	@GetMapping("/alumno/{id}")
 	public ResponseEntity<UsuarioDetailsDTO> findAllUsuarios(@PathVariable(name = "id") Integer id, @PathParam("token") String token) {
-		System.out.println(token);
 		if (this.JwtService.isSameIdUser(token, id)) {
 			return ResponseEntity.ok(usuarioService.findUsuarioDetalles(id));
+		} else {
+			throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Access Denied");
+		}
+	}
+	
+	@PostMapping("/alumno/changePassword")
+	public ResponseEntity<Boolean> changePassword(@RequestPart(name = "newPassword") String newPassword,
+			@RequestPart(name = "password") String password, @RequestPart(name = "nick") String nick) {
+		if (usuarioService.comparePassword(nick, password) != null) {
+			return ResponseEntity.ok(usuarioService.changePassword(newPassword, nick, password));
 		} else {
 			throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Access Denied");
 		}

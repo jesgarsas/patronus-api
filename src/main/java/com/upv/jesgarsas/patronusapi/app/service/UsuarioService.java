@@ -63,4 +63,14 @@ public class UsuarioService {
 		}
 		return null;
 	}
+
+	public Boolean changePassword(String newPassword, String nick, String password) {
+		Usuario user = usuarioRepository.findByNickAndPassword(nick, password);
+		if (user != null) {
+			user.setPassword(newPassword);
+			usuarioRepository.save(user);
+			return true;
+		}
+		return false;
+	}
 }

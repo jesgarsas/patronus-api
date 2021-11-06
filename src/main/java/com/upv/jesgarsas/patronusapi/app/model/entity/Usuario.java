@@ -4,7 +4,6 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 
 /**
  * Clase representadora de la tabla de la BD
@@ -28,8 +27,7 @@ public class Usuario {
 	@Column(name = "nick", length = 100)
 	private String nick;
 	
-	// @Column(name = "password", length = 100)
-	@Transient
+	@Column(name = "password", length = 100)
 	private String password;
 	
 	@Column(name = "last_patron")
