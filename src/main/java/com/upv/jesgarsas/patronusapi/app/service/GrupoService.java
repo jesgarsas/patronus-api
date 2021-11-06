@@ -38,6 +38,11 @@ public class GrupoService {
 		return grupoRepository.findAllByProfesorId(id);
 	}
 	
+	public GrupoDTO findByIdDTO(Integer id) {
+		Grupo grupo = findById(id);
+		return grupo != null ? grupoMapper.toDto(grupo) : null;
+	}
+	
 	public PageDTO<GrupoDTO> findAllGruposPageable(GrupoFilterDTO filter) {
 		Pageable params = PageRequest.of(filter.getPageNumber(), filter.getSize());
 
@@ -50,5 +55,23 @@ public class GrupoService {
 		result.setTotalElements(page.getTotalElements());
 		result.setTotalPages(page.getTotalPages());
 		return result;
+	}
+
+	public Boolean delete(Integer id) {
+		try {
+			grupoRepository.deleteById(id);
+			return true;
+		} catch (Exception e) {}
+		return false;
+	}
+	
+	public GrupoDTO saveOrUpdate(GrupoDTO grupoDto) {
+		Grupo grupo;
+		try {
+			grupo = grupoMapper.toEntity(grupoDto);
+			grupo = grupoRepository.save(grupo);
+			return grupoMapper.toDto(grupo);
+		} catch (Exception e) {}
+		return null;
 	}
 }

@@ -21,4 +21,12 @@ public abstract class GrupoMapper {
 		@Mapping(target = "profesor", expression = "java(usuarioMapper.toDto(grupo.getProfesor()))"),
 	})
 	public abstract GrupoDTO toDto(Grupo grupo);
+	
+	@Mappings({
+		@Mapping(target = "id", source = "id"),
+		@Mapping(target = "nombre", source = "nombre"),
+		@Mapping(target = "alumnos", ignore = true),
+		@Mapping(target = "profesor", expression = "java(usuarioMapper.toEntity(grupo.getProfesor()))"),
+	})
+	public abstract Grupo toEntity(GrupoDTO grupo);
 }
