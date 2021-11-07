@@ -49,6 +49,11 @@ public class UsuarioController {
 		return ResponseEntity.ok(usuarioService.findAllUsuarios());
 	}
 	
+	@GetMapping("/profesor/type/{type}")
+	public ResponseEntity<List<UsuarioDTO>> findAllUsuariosByType(@PathVariable(name = "type") Integer type) {
+		return ResponseEntity.ok(usuarioService.findAllUsuariosByType(type));
+	}
+	
 	@GetMapping("/alumno/{id}")
 	public ResponseEntity<UsuarioDetailsDTO> findAllUsuarios(@PathVariable(name = "id") Integer id, @PathParam("token") String token) {
 		if (this.JwtService.isSameIdUser(token, id)) {

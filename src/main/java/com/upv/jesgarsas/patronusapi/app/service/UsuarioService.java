@@ -73,4 +73,12 @@ public class UsuarioService {
 		}
 		return false;
 	}
+
+	public List<UsuarioDTO> findAllUsuariosByType(Integer type) {
+		try {
+			return this.usuarioMapper.toListDto(this.usuarioRepository.findByRolId(type));
+		} catch (Exception e) {
+			return null;
+		}
+	}
 }

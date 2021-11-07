@@ -1,5 +1,7 @@
 package com.upv.jesgarsas.patronusapi.app.repository;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -21,4 +23,6 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Integer>  {
 	@Query(value = "SELECT id, nick, email, rol_id, last_patron, null as password FROM Usuario WHERE id = :id", nativeQuery = true)
 	public Usuario findByIdWithoutPassword(Integer id);
 
+	@Query(value = "SELECT id, nick, email, rol_id, last_patron, null as password FROM Usuario WHERE rol_id = :type", nativeQuery = true)
+	public List<Usuario> findByRolId(Integer type);
 }

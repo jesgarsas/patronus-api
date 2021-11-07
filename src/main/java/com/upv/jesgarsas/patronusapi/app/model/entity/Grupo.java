@@ -3,7 +3,6 @@ package com.upv.jesgarsas.patronusapi.app.model.entity;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -30,7 +29,7 @@ public class Grupo {
 	@Column(name = "nombre")
 	private String nombre;
 	
-	@ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.REMOVE})
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "id_profesor", referencedColumnName = "id")
 	private Usuario profesor;
 	
