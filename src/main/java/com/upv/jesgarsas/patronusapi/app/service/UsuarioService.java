@@ -1,16 +1,23 @@
 package com.upv.jesgarsas.patronusapi.app.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import com.upv.jesgarsas.patronusapi.app.model.dto.PageDTO;
 import com.upv.jesgarsas.patronusapi.app.model.dto.UsuarioDTO;
 import com.upv.jesgarsas.patronusapi.app.model.dto.UsuarioDetailsDTO;
+import com.upv.jesgarsas.patronusapi.app.model.dto.filter.UsuarioFilterDTO;
 import com.upv.jesgarsas.patronusapi.app.model.entity.Grupo;
 import com.upv.jesgarsas.patronusapi.app.model.entity.Usuario;
 import com.upv.jesgarsas.patronusapi.app.repository.UsuarioRepository;
+import com.upv.jesgarsas.patronusapi.app.repository.specification.UsuarioSpecification;
 import com.upv.jesgarsas.patronusapi.app.service.mapper.UsuarioMapper;
 
 @Service
@@ -80,5 +87,41 @@ public class UsuarioService {
 		} catch (Exception e) {
 			return null;
 		}
+	}
+
+	public List<UsuarioDTO> findAllUsuariosByTypes(String types) {
+		try {
+			String[] typesSplit = types.split(",");
+			List<Integer> role = new ArrayList<>();
+			for (int j = 0; j < typesSplit.length; j++) {
+				try {
+					role.add(Integer.valueOf(typesSplit[j]));
+				} catch (Exception e) {
+				}
+			}
+			return this.usuarioMapper.toListDto(this.usuarioRepository.findByRolIdIn(role));
+		} catch (Exception e) {
+			return null;
+		}
+	}
+
+	public PageDTO<UsuarioDTO> findAllUsuariosByGrupo(UsuarioFilterDTO filter) {
+		try {
+			Pageable params = PageRequest.of(filter.getPageNumber(), filter.getSize());
+
+			Page<Usuario> page = usuarioRepository.findAll(new UsuarioSpecification(filter), params);
+			PageDTO<UsuarioDTO> result = new PageDTO<>();
+			page.getContent().forEach(user -> { 
+				UsuarioDTO dto = usuarioMapper.toDto(user);
+				result.getContent().add(dto);
+			});
+			result.setTotalElements(page.getTotalElements());
+			result.setTotalPages(page.getTotalPages());
+			return result;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+		
 	}
 }

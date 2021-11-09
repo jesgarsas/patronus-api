@@ -11,13 +11,16 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.server.ResponseStatusException;
 
+import com.upv.jesgarsas.patronusapi.app.model.dto.PageDTO;
 import com.upv.jesgarsas.patronusapi.app.model.dto.UsuarioDTO;
 import com.upv.jesgarsas.patronusapi.app.model.dto.UsuarioDetailsDTO;
+import com.upv.jesgarsas.patronusapi.app.model.dto.filter.UsuarioFilterDTO;
 import com.upv.jesgarsas.patronusapi.app.service.JWTService;
 import com.upv.jesgarsas.patronusapi.app.service.UsuarioService;
 
@@ -49,9 +52,9 @@ public class UsuarioController {
 		return ResponseEntity.ok(usuarioService.findAllUsuarios());
 	}
 	
-	@GetMapping("/profesor/type/{type}")
-	public ResponseEntity<List<UsuarioDTO>> findAllUsuariosByType(@PathVariable(name = "type") Integer type) {
-		return ResponseEntity.ok(usuarioService.findAllUsuariosByType(type));
+	@GetMapping("/profesor/type/{types}")
+	public ResponseEntity<List<UsuarioDTO>> findAllUsuariosByType(@PathVariable(name = "types") String types) {
+		return ResponseEntity.ok(usuarioService.findAllUsuariosByTypes(types));
 	}
 	
 	@GetMapping("/alumno/{id}")
@@ -71,5 +74,10 @@ public class UsuarioController {
 		} else {
 			throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Access Denied");
 		}
+	}
+	
+	@PostMapping("/profesor/grupo")
+	public ResponseEntity<PageDTO<UsuarioDTO>> findByGrupo(@RequestBody(required = true) UsuarioFilterDTO filter) {
+		return ResponseEntity.ok(this.usuarioService.findAllUsuariosByGrupo(filter));
 	}
 }

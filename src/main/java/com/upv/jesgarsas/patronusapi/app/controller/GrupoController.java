@@ -23,7 +23,7 @@ public class GrupoController {
 	private GrupoService grupoService;
 	
 	@PostMapping("/alumno/all/filtered")
-	public ResponseEntity<PageDTO<GrupoDTO>> findAllPatronesFiltered(@RequestBody(required = true) GrupoFilterDTO filter) {
+	public ResponseEntity<PageDTO<GrupoDTO>> findAllGruposFiltered(@RequestBody(required = true) GrupoFilterDTO filter) {
 		return ResponseEntity.ok(grupoService.findAllGruposPageable(filter));
 	}
 	

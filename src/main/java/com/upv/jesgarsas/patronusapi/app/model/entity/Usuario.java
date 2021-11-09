@@ -1,8 +1,15 @@
 package com.upv.jesgarsas.patronusapi.app.model.entity;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 /**
@@ -32,6 +39,10 @@ public class Usuario {
 	
 	@Column(name = "last_patron")
 	private Integer lastPatron;
+	
+	@ManyToMany(fetch = FetchType.LAZY)
+	@JoinTable(name = "R_GRUPO_ALUMNO", joinColumns = {@JoinColumn(name = "id_usuario")}, inverseJoinColumns = {@JoinColumn(name = "id_grupo")})
+	private Set<Grupo> grupo = new HashSet<>();;
 
 	/**
 	 * 
@@ -138,6 +149,20 @@ public class Usuario {
 	 */
 	public void setLastPatron(Integer lastPatron) {
 		this.lastPatron = lastPatron;
+	}
+
+	/**
+	 * @return the grupo
+	 */
+	public Set<Grupo> getGrupo() {
+		return grupo;
+	}
+
+	/**
+	 * @param grupo the grupo to set
+	 */
+	public void setGrupo(Set<Grupo> grupo) {
+		this.grupo = grupo;
 	}
 	
 	

@@ -69,6 +69,10 @@ public class GrupoService {
 		Grupo grupo;
 		try {
 			grupo = grupoMapper.toEntity(grupoDto);
+			if (grupo.getId() != null) {
+				Grupo grupoDB = findById(grupo.getId());
+				grupo.setAlumnos(grupoDB.getAlumnos());
+			}
 			grupo = grupoRepository.save(grupo);
 			return grupoMapper.toDto(grupo);
 		} catch (Exception e) {}
