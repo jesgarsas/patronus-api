@@ -1,16 +1,21 @@
 package com.upv.jesgarsas.patronusapi.app.service;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.upv.jesgarsas.patronusapi.app.model.dto.PageDTO;
 import com.upv.jesgarsas.patronusapi.app.model.dto.UsuarioDTO;
@@ -113,7 +118,7 @@ public class UsuarioService {
 
 			Page<Usuario> page = usuarioRepository.findAll(new UsuarioSpecification(filter), params);
 			PageDTO<UsuarioDTO> result = new PageDTO<>();
-			page.getContent().forEach(user -> { 
+			page.getContent().forEach(user -> {
 				UsuarioDTO dto = usuarioMapper.toDto(user);
 				result.getContent().add(dto);
 			});
@@ -124,9 +129,9 @@ public class UsuarioService {
 			e.printStackTrace();
 			return null;
 		}
-		
+
 	}
-	
+
 	@Transactional
 	public UsuarioDTO create(UsuarioDTO usuario) {
 		try {
@@ -138,11 +143,10 @@ public class UsuarioService {
 			grupoService.save(grupo);
 			return usuarioMapper.toDto(newUsuario);
 		} catch (Exception e) {
-			e.printStackTrace();
 			return null;
-		}
+		} 
 	}
-	
+
 	@Transactional
 	public Boolean delete(Integer id) {
 		try {
@@ -152,5 +156,27 @@ public class UsuarioService {
 			e.printStackTrace();
 			return false;
 		}
+	}
+
+	public List<String> createFromFile(MultipartFile file) {
+		List<String> nicksAlreadyInUse = new ArrayList<>();
+		// Comprobar si es un excel
+		if (!file.getContentType().equals("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")) {
+			throw new RuntimeException("Only excel format");
+		}
+		
+		try {
+			XSSFWorkbook workbook = new XSSFWorkbook(file.getInputStream());
+			XSSFSheet worksheet = workbook.getSheetAt(0);
+			
+			for(int i=1;i<worksheet.getPhysicalNumberOfRows() ;i++) {
+			    XSSFRow row = worksheet.getRow(i);
+			    Usuario usuario = new Usuario();   
+			}
+		} catch (IOException e) {
+			throw new RuntimeException("Bad file format");
+		}
+		
+		return nicksAlreadyInUse;
 	}
 }
