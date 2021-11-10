@@ -22,6 +22,8 @@ public class UsuarioDTO implements Serializable {
 	private Integer lastPatron;
 	
 	private String token;
+	
+	private Integer grupoId;
 
 	/**
 	 * 
@@ -142,6 +144,20 @@ public class UsuarioDTO implements Serializable {
 	 */
 	public void setToken(String token) {
 		this.token = token;
+	}
+
+	/**
+	 * @return the grupoId
+	 */
+	public Integer getGrupoId() {
+		return grupoId;
+	}
+
+	/**
+	 * @param grupoId the grupoId to set
+	 */
+	public void setGrupoId(Integer grupoId) {
+		this.grupoId = grupoId;
 	}
 	
 	

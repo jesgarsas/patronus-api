@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -79,5 +80,15 @@ public class UsuarioController {
 	@PostMapping("/profesor/grupo")
 	public ResponseEntity<PageDTO<UsuarioDTO>> findByGrupo(@RequestBody(required = true) UsuarioFilterDTO filter) {
 		return ResponseEntity.ok(this.usuarioService.findAllUsuariosByGrupo(filter));
+	}
+	
+	@PostMapping("/profesor/create")
+	public ResponseEntity<UsuarioDTO> create(@RequestBody(required = true) UsuarioDTO usuario) {
+		return ResponseEntity.ok(this.usuarioService.create(usuario));
+	}
+	
+	@DeleteMapping("/profesor/delete/{id}")
+	public ResponseEntity<Boolean> delete(@PathVariable(name = "id", required = true) Integer id) {
+		return ResponseEntity.ok(this.usuarioService.delete(id));
 	}
 }

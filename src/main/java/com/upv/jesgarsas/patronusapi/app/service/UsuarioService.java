@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -123,5 +125,32 @@ public class UsuarioService {
 			return null;
 		}
 		
+	}
+	
+	@Transactional
+	public UsuarioDTO create(UsuarioDTO usuario) {
+		try {
+			Usuario newUsuario = usuarioMapper.toEntity(usuario);
+			newUsuario.setPassword("d895d4285187ba910f4a2e78ee8b7542");
+			newUsuario = usuarioRepository.save(newUsuario);
+			Grupo grupo = grupoService.findById(usuario.getGrupoId());
+			grupo.getAlumnos().add(newUsuario);
+			grupoService.save(grupo);
+			return usuarioMapper.toDto(newUsuario);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
+	@Transactional
+	public Boolean delete(Integer id) {
+		try {
+			this.usuarioRepository.deleteById(id);
+			return true;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
 	}
 }

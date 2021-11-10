@@ -21,8 +21,8 @@ import javax.persistence.Table;
 public class Grupo {
 
 	@Id
-	@SequenceGenerator(name = "GEN_SEQ_LECCION", allocationSize = 1, sequenceName = "SEQ_LECCION")
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "GEN_SEQ_LECCION")
+	@SequenceGenerator(name = "GEN_SEQ_GRUPO", allocationSize = 1, sequenceName = "SEQ_GRUPO")
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "GEN_SEQ_GRUPO")
 	@Column(name = "id")
 	private Integer id;
 

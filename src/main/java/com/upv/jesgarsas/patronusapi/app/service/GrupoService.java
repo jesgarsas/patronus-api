@@ -65,6 +65,10 @@ public class GrupoService {
 		return false;
 	}
 	
+	public Grupo save(Grupo grupo) {
+		return grupoRepository.save(grupo);
+	}
+	
 	public GrupoDTO saveOrUpdate(GrupoDTO grupoDto) {
 		Grupo grupo;
 		try {
