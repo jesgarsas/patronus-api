@@ -144,7 +144,7 @@ public class UsuarioService {
 			return usuarioMapper.toDto(newUsuario);
 		} catch (Exception e) {
 			return null;
-		} 
+		}
 	}
 
 	@Transactional
@@ -164,28 +164,28 @@ public class UsuarioService {
 		if (!file.getContentType().equals("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")) {
 			throw new RuntimeException("Only excel format");
 		}
-		
+
 		try {
 			XSSFWorkbook workbook = new XSSFWorkbook(file.getInputStream());
 			XSSFSheet worksheet = workbook.getSheetAt(0);
 			UsuarioDTO usuario;
-			for(int i=1;i<worksheet.getPhysicalNumberOfRows() ;i++) {
-			    XSSFRow row = worksheet.getRow(i);
-			    usuario = new UsuarioDTO();
-			    usuario.setNick(row.getCell(0).getStringCellValue());
-			    usuario.setEmail(row.getCell(1).getStringCellValue());
-			    usuario.setGrupoId(grupoId);
-			    usuario.setRolId(1);
-			    try {
-					this.create(usuario);
-				} catch (Exception e) {
+			for (int i = 1; i < worksheet.getPhysicalNumberOfRows(); i++) {
+				XSSFRow row = worksheet.getRow(i);
+				usuario = new UsuarioDTO();
+				usuario.setNick(row.getCell(0).getStringCellValue());
+				usuario.setEmail(row.getCell(1).getStringCellValue());
+				usuario.setGrupoId(grupoId);
+				usuario.setRolId(1);
+
+				if (this.create(usuario) == null) {
 					nicksAlreadyInUse.add(usuario.getNick());
 				}
+
 			}
 		} catch (IOException e) {
 			throw new RuntimeException("Bad file format");
 		}
-		
+
 		return nicksAlreadyInUse;
 	}
 }
