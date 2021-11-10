@@ -158,7 +158,7 @@ public class UsuarioService {
 		}
 	}
 
-	public List<String> createFromFile(MultipartFile file) {
+	public List<String> createFromFile(MultipartFile file, Integer grupoId) {
 		List<String> nicksAlreadyInUse = new ArrayList<>();
 		// Comprobar si es un excel
 		if (!file.getContentType().equals("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")) {
@@ -168,10 +168,19 @@ public class UsuarioService {
 		try {
 			XSSFWorkbook workbook = new XSSFWorkbook(file.getInputStream());
 			XSSFSheet worksheet = workbook.getSheetAt(0);
-			
+			UsuarioDTO usuario;
 			for(int i=1;i<worksheet.getPhysicalNumberOfRows() ;i++) {
 			    XSSFRow row = worksheet.getRow(i);
-			    Usuario usuario = new Usuario();   
+			    usuario = new UsuarioDTO();
+			    usuario.setNick(row.getCell(0).getStringCellValue());
+			    usuario.setEmail(row.getCell(1).getStringCellValue());
+			    usuario.setGrupoId(grupoId);
+			    usuario.setRolId(1);
+			    try {
+					this.create(usuario);
+				} catch (Exception e) {
+					nicksAlreadyInUse.add(usuario.getNick());
+				}
 			}
 		} catch (IOException e) {
 			throw new RuntimeException("Bad file format");

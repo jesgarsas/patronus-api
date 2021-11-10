@@ -94,9 +94,10 @@ public class UsuarioController {
 		}
 	}
 	
-	@PostMapping("/profesor/create-from-file")
-	public ResponseEntity<List<String>> createFromFile(@RequestBody(required = true) MultipartFile file) {
-		return ResponseEntity.ok(this.usuarioService.createFromFile(file));
+	@PostMapping("/profesor/create-from-file/{id}")
+	public ResponseEntity<List<String>> createFromFile(@RequestBody(required = true) MultipartFile file,
+			@PathVariable(name = "id", required = true) Integer grupoId) {
+		return ResponseEntity.ok(this.usuarioService.createFromFile(file, grupoId));
 	}
 
 	@DeleteMapping("/profesor/delete/{id}")
