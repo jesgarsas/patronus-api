@@ -83,6 +83,7 @@ public class UsuarioService {
 		return null;
 	}
 
+	@Transactional
 	public Boolean changePassword(String newPassword, String nick, String password) {
 		Usuario user = usuarioRepository.findByNickAndPassword(nick, password);
 		if (user != null) {
@@ -202,5 +203,17 @@ public class UsuarioService {
 		Proyecto proyecto = proyectoService.findByIdEntity(0);
 		File file = proyectoService.getFileById(proyecto);
 		return file;
+	}
+
+	@Transactional
+	public Boolean resetPassword(Integer id) {
+		try {
+			Usuario usuario = usuarioRepository.findByIdWithoutPassword(id);
+			usuario.setPassword("d895d4285187ba910f4a2e78ee8b7542");
+			usuarioRepository.save(usuario);
+		} catch (Exception e) {
+			return false;
+		}
+		return true;
 	}
 }

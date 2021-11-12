@@ -25,6 +25,8 @@ public class UsuarioSpecification implements Specification<Usuario> {
 	public final static String GRUPO_COLUMNA = "grupo";
 	
 	public final static String GRUPO_ID_COLUMNA = "id";
+	
+	public final static String ID_COLUMNA = "id";
 
 	private UsuarioFilterDTO dto;
 	
@@ -45,9 +47,9 @@ public class UsuarioSpecification implements Specification<Usuario> {
 		if (dto.getColumn() == null) {}
 		else if(dto.getColumn().equals(GRUPO_ID_COLUMNA) ) {
 			if (("desc").equals(dto.getSort())) {
-				query.orderBy(criteriaBuilder.desc(root.join(GRUPO_COLUMNA, JoinType.INNER).<Grupo>get(GRUPO_ID_COLUMNA)));
+				query.orderBy(criteriaBuilder.desc(root.get(ID_COLUMNA)));
 			} else {
-				query.orderBy(criteriaBuilder.asc(root.join(GRUPO_COLUMNA, JoinType.INNER).<Grupo>get(GRUPO_ID_COLUMNA)));
+				query.orderBy(criteriaBuilder.asc(root.get(ID_COLUMNA)));
 			}
 			return criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()])); 
 		} else if (dto.getColumn().equals(EMAIL_COLUMNA)) {

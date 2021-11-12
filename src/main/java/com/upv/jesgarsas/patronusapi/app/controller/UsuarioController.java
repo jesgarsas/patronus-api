@@ -84,6 +84,11 @@ public class UsuarioController {
 			throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Access Denied");
 		}
 	}
+	
+	@PostMapping("/profesor/resetPassword/{id}")
+	public ResponseEntity<Boolean> resetPassword(@PathVariable(name = "id", required = true) Integer id) {
+		return ResponseEntity.ok(usuarioService.resetPassword(id));
+	}
 
 	@PostMapping("/profesor/grupo")
 	public ResponseEntity<PageDTO<UsuarioDTO>> findByGrupo(@RequestBody(required = true) UsuarioFilterDTO filter) {
