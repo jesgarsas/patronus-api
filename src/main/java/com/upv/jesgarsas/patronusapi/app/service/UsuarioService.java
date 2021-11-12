@@ -1,5 +1,6 @@
 package com.upv.jesgarsas.patronusapi.app.service;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,6 +23,7 @@ import com.upv.jesgarsas.patronusapi.app.model.dto.UsuarioDTO;
 import com.upv.jesgarsas.patronusapi.app.model.dto.UsuarioDetailsDTO;
 import com.upv.jesgarsas.patronusapi.app.model.dto.filter.UsuarioFilterDTO;
 import com.upv.jesgarsas.patronusapi.app.model.entity.Grupo;
+import com.upv.jesgarsas.patronusapi.app.model.entity.Proyecto;
 import com.upv.jesgarsas.patronusapi.app.model.entity.Usuario;
 import com.upv.jesgarsas.patronusapi.app.repository.UsuarioRepository;
 import com.upv.jesgarsas.patronusapi.app.repository.specification.UsuarioSpecification;
@@ -38,6 +40,9 @@ public class UsuarioService {
 
 	@Autowired
 	private GrupoService grupoService;
+
+	@Autowired
+	private ProyectoService proyectoService;
 
 	public List<UsuarioDTO> findAllUsuarios() {
 		return usuarioMapper.toListDto(usuarioRepository.findAll());
@@ -172,8 +177,12 @@ public class UsuarioService {
 			for (int i = 1; i < worksheet.getPhysicalNumberOfRows(); i++) {
 				XSSFRow row = worksheet.getRow(i);
 				usuario = new UsuarioDTO();
-				usuario.setNick(row.getCell(0).getStringCellValue());
-				usuario.setEmail(row.getCell(1).getStringCellValue());
+				if (row.getCell(1) != null && row.getCell(0) != null) {
+					usuario.setNick(row.getCell(0).getStringCellValue());
+					usuario.setEmail(row.getCell(1).getStringCellValue());
+				} else {
+					break;
+				}
 				usuario.setGrupoId(grupoId);
 				usuario.setRolId(1);
 
@@ -187,5 +196,11 @@ public class UsuarioService {
 		}
 
 		return nicksAlreadyInUse;
+	}
+
+	public File getPlantilla() {
+		Proyecto proyecto = proyectoService.findByIdEntity(0);
+		File file = proyectoService.getFileById(proyecto);
+		return file;
 	}
 }

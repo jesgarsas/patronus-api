@@ -1,10 +1,15 @@
 package com.upv.jesgarsas.patronusapi.app.controller;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.util.List;
 
 import javax.websocket.server.PathParam;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -93,11 +98,29 @@ public class UsuarioController {
 			return ResponseEntity.ok(null);
 		}
 	}
-	
+
 	@PostMapping("/profesor/create-from-file/{id}")
 	public ResponseEntity<List<String>> createFromFile(@RequestBody(required = true) MultipartFile file,
 			@PathVariable(name = "id", required = true) Integer grupoId) {
 		return ResponseEntity.ok(this.usuarioService.createFromFile(file, grupoId));
+	}
+
+	@GetMapping("/plantilla")
+	public ResponseEntity<InputStreamResource> getPlantilla() {
+		File file = usuarioService.getPlantilla();
+		if (file != null) {
+			InputStreamResource in;
+			try {
+				in = new InputStreamResource(new FileInputStream(file));
+				return ResponseEntity.ok()
+						.header(HttpHeaders.CONTENT_DISPOSITION, "attachment;filename=" + "Plantilla importación alumnos.xlsx")
+						.contentLength(file.length()) //
+						.body(in);
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+			}
+		}
+		return ResponseEntity.ok(null);
 	}
 
 	@DeleteMapping("/profesor/delete/{id}")
