@@ -132,4 +132,9 @@ public class UsuarioController {
 	public ResponseEntity<Boolean> delete(@PathVariable(name = "id", required = true) Integer id) {
 		return ResponseEntity.ok(this.usuarioService.delete(id));
 	}
+	
+	@PostMapping("/profesor/all/filtered")
+	public ResponseEntity<PageDTO<UsuarioDTO>> findAllGruposFiltered(@RequestBody(required = true) UsuarioFilterDTO filter) {
+		return ResponseEntity.ok(usuarioService.findAllUsuariosByGrupo(filter));
+	}
 }

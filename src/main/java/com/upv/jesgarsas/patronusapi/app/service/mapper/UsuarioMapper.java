@@ -22,7 +22,8 @@ public abstract class UsuarioMapper {
 		@Mapping(target = "nick", expression = "java(usuario.getNick())"),
 		@Mapping(target = "password", ignore = true),
 		@Mapping(target = "lastPatron", expression = "java(usuario.getLastPatron())"),
-		@Mapping(target = "token", ignore = true)})
+		@Mapping(target = "token", ignore = true),
+		@Mapping(target = "grupoId", ignore = true)})
 	public abstract UsuarioDTO toDto(Usuario usuario);
 	
 	@Mappings({@Mapping(target = "id", expression = "java(usuario.getId())"),
@@ -30,7 +31,8 @@ public abstract class UsuarioMapper {
 		@Mapping(target = "rolId", expression = "java(usuario.getRolId())"),
 		@Mapping(target = "nick", expression = "java(usuario.getNick())"),
 		@Mapping(target = "password", expression = "java(usuario.getPassword())"),
-		@Mapping(target = "lastPatron", expression = "java(usuario.getLastPatron())")})
+		@Mapping(target = "lastPatron", expression = "java(usuario.getLastPatron())"),
+		@Mapping(target = "grupo", ignore = true)})
 	public abstract Usuario toEntity(UsuarioDTO usuario);
 	
 	public List<UsuarioDTO> toListDto(Collection<Usuario> usuarios) {
@@ -57,6 +59,7 @@ public abstract class UsuarioMapper {
 		@Mapping(target = "profesor", ignore = true),
 		@Mapping(target = "profesorEmail", ignore = true),
 		@Mapping(target = "grupo", ignore = true),
-		@Mapping(target = "grupos", ignore = true)})
+		@Mapping(target = "grupos", ignore = true),
+		@Mapping(target = "grupoId", ignore = true)})
 	public abstract UsuarioDetailsDTO toDtoDetails(Usuario usuario);
 }

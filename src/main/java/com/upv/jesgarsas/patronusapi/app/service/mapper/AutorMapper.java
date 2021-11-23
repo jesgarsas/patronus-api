@@ -19,6 +19,7 @@ public abstract class AutorMapper {
 		@Mapping(target = "email", ignore = true),
 		@Mapping(target = "rolId", ignore = true),
 		@Mapping(target = "password", ignore = true),
-		@Mapping(target = "lastPatron", ignore = true)})
+		@Mapping(target = "lastPatron", ignore = true),
+		@Mapping(target = "grupo", ignore = true)})
 	public abstract Usuario toEntity(AutorDTO usuario); 
 }

@@ -9,6 +9,7 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.util.StringUtils;
 
 import com.upv.jesgarsas.patronusapi.app.model.dto.filter.UsuarioFilterDTO;
 import com.upv.jesgarsas.patronusapi.app.model.entity.Grupo;
@@ -27,7 +28,9 @@ public class UsuarioSpecification implements Specification<Usuario> {
 	public final static String GRUPO_ID_COLUMNA = "id";
 	
 	public final static String ID_COLUMNA = "id";
-
+	
+	public final static String ROL_TYPE_COLUMNA = "rolId";
+			
 	private UsuarioFilterDTO dto;
 	
 	public UsuarioSpecification(UsuarioFilterDTO dto) {
@@ -40,6 +43,15 @@ public class UsuarioSpecification implements Specification<Usuario> {
 		// Filtros
 		if (dto.getIdGrupo() != null) {
 			predicates.add(criteriaBuilder.and(criteriaBuilder.equal(root.join(GRUPO_COLUMNA, JoinType.INNER).<Grupo>get(GRUPO_ID_COLUMNA), dto.getIdGrupo())));
+		}
+		if (StringUtils.hasText(dto.getName())) {
+			predicates.add(criteriaBuilder.and(criteriaBuilder.like(criteriaBuilder.lower(root.get(NICK_COLUMNA)), "%" + dto.getName().toLowerCase() + "%")));
+		}
+		if (StringUtils.hasText(dto.getEmail())) {
+			predicates.add(criteriaBuilder.and(criteriaBuilder.like(criteriaBuilder.lower(root.get(EMAIL_COLUMNA)), "%" + dto.getEmail().toLowerCase() + "%")));
+		}
+		if (dto.getType() != null) {
+			predicates.add(criteriaBuilder.and(criteriaBuilder.equal(root.get(ROL_TYPE_COLUMNA), dto.getType())));
 		}
 		
 		// Sorting
@@ -54,6 +66,10 @@ public class UsuarioSpecification implements Specification<Usuario> {
 			return criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()])); 
 		} else if (dto.getColumn().equals(EMAIL_COLUMNA)) {
 			column = EMAIL_COLUMNA;
+		} else if (dto.getColumn().equals("name")) {
+			column = NICK_COLUMNA;
+		} else if (dto.getColumn().equals("type")) {
+			column = ROL_TYPE_COLUMNA;
 		}
 		
 		if (("desc").equals(dto.getSort())) {
