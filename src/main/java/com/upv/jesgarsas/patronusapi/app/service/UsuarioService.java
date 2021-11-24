@@ -16,6 +16,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.upv.jesgarsas.patronusapi.app.model.dto.PageDTO;
@@ -142,11 +143,15 @@ public class UsuarioService {
 	public UsuarioDTO create(UsuarioDTO usuario) {
 		try {
 			Usuario newUsuario = usuarioMapper.toEntity(usuario);
-			newUsuario.setPassword("d895d4285187ba910f4a2e78ee8b7542");
+			if (!StringUtils.hasText(usuario.getPassword())) {
+				newUsuario.setPassword("d895d4285187ba910f4a2e78ee8b7542");
+			}
 			newUsuario = usuarioRepository.save(newUsuario);
-			Grupo grupo = grupoService.findById(usuario.getGrupoId());
-			grupo.getAlumnos().add(newUsuario);
-			grupoService.save(grupo);
+			if (usuario.getGrupoId() != null) {
+				Grupo grupo = grupoService.findById(usuario.getGrupoId());
+				grupo.getAlumnos().add(newUsuario);
+				grupoService.save(grupo);
+			}
 			return usuarioMapper.toDto(newUsuario);
 		} catch (Exception e) {
 			return null;
