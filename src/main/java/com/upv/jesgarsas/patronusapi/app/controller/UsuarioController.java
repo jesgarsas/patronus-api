@@ -137,4 +137,9 @@ public class UsuarioController {
 	public ResponseEntity<PageDTO<UsuarioDTO>> findAllGruposFiltered(@RequestBody(required = true) UsuarioFilterDTO filter) {
 		return ResponseEntity.ok(usuarioService.findAllUsuariosByGrupo(filter));
 	}
+	
+	@PostMapping("/administrador/edit")
+	public ResponseEntity<Boolean> editUser(@RequestBody(required = true) UsuarioDTO usuario) {
+		return ResponseEntity.ok(usuarioService.edit(usuario));
+	}
 }

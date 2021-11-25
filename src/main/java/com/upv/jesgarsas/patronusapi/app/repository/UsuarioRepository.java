@@ -11,6 +11,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import com.upv.jesgarsas.patronusapi.app.model.dto.UsuarioDTO;
 import com.upv.jesgarsas.patronusapi.app.model.entity.Usuario;
 
 @Repository
@@ -33,4 +34,8 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Integer>  {
 	public List<Usuario> findByRolIdIn(List<Integer> types);
 	
 	public Page<Usuario> findAll(Specification<Usuario> spec, Pageable pageable);
+
+	@Modifying
+	@Query(value = "UPDATE Usuario SET NICK = :nick, EMAIL = :email WHERE ID = :id", nativeQuery = true)
+	public void edit(Integer id, String nick, String email);
 }

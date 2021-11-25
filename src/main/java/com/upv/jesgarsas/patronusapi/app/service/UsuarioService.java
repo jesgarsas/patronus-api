@@ -222,4 +222,22 @@ public class UsuarioService {
 		return true;
 	}
 
+	@Transactional
+	public Boolean edit(UsuarioDTO usuario) {
+		try {
+			if (!StringUtils.hasText(usuario.getEmail()))
+				throw new RuntimeException("El email no puede ser nulo");
+			if (!StringUtils.hasText(usuario.getNick()))
+				throw new RuntimeException("El nick no puede ser nulo");
+			if (usuario.getId() == null) {
+				throw new RuntimeException("El id no puede ser nulo");
+			}
+			usuarioRepository.edit(usuario.getId(), usuario.getNick(), usuario.getEmail());
+			return true;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
+
 }
