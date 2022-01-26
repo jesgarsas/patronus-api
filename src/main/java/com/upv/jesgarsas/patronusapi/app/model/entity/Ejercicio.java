@@ -37,6 +37,10 @@ public class Ejercicio {
 	
 	@Column(name = "nombre")
 	private String nombre;
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "autor")
+	private Usuario autor;
 
 	@Column(name = "fecha_creacion")
 	private Instant fechaCreacion;
@@ -130,6 +134,20 @@ public class Ejercicio {
 	 */
 	public void setPreguntas(Set<Pregunta> preguntas) {
 		this.preguntas = preguntas;
+	}
+
+	/**
+	 * @return the autor
+	 */
+	public Usuario getAutor() {
+		return autor;
+	}
+
+	/**
+	 * @param autor the autor to set
+	 */
+	public void setAutor(Usuario autor) {
+		this.autor = autor;
 	}
 	
 }

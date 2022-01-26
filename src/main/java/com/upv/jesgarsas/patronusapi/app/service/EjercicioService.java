@@ -12,6 +12,7 @@ import com.upv.jesgarsas.patronusapi.app.model.dto.filter.EjercicioFilterDTO;
 import com.upv.jesgarsas.patronusapi.app.model.entity.Ejercicio;
 import com.upv.jesgarsas.patronusapi.app.repository.EjercicioRepository;
 import com.upv.jesgarsas.patronusapi.app.repository.specification.EjercicioSpecifiction;
+import com.upv.jesgarsas.patronusapi.app.service.mapper.EjercicioMapper;
 
 @Service
 public class EjercicioService {
@@ -19,16 +20,19 @@ public class EjercicioService {
 	@Autowired
 	private EjercicioRepository ejercicioRepository;
 	
+	@Autowired
+	private EjercicioMapper ejercicioMapper;
+	
+	/**
+	 * Return a page filtered and ordened by column with a determined size
+	 * @param filter dto with params
+	 * @return page
+	 */
 	public PageDTO<EjercicioDTO> findAllPatronesPageable(EjercicioFilterDTO filter) {
 		Pageable params = PageRequest.of(filter.getPageNumber(), filter.getSize());
-
 		Page<Ejercicio> page = ejercicioRepository.findAll(new EjercicioSpecifiction(filter), params);
 		PageDTO<EjercicioDTO> result = new PageDTO<>();
-//		page.getContent().forEach(patron -> { 
-//			patron.getDescripciones();
-//			PatronDTO dto = patronMapper.toDto(patron);
-//			result.getContent().add(dto);
-//		});
+		result.setContent(ejercicioMapper.toDto(page.getContent()));
 		result.setTotalElements(page.getTotalElements());
 		result.setTotalPages(page.getTotalPages());
 		return result;
