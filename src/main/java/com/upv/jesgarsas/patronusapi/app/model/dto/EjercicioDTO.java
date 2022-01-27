@@ -5,8 +5,6 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.upv.jesgarsas.patronusapi.app.model.entity.LocalTypes;
-
 public class EjercicioDTO implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
@@ -15,7 +13,7 @@ public class EjercicioDTO implements Serializable {
 	
 	private PatronDTO patron;
 	
-	private LocalTypes locale;
+	private LocalTypesDTO locale;
 	
 	private String nombre;
 
@@ -64,14 +62,14 @@ public class EjercicioDTO implements Serializable {
 	/**
 	 * @return the locale
 	 */
-	public LocalTypes getLocale() {
+	public LocalTypesDTO getLocale() {
 		return locale;
 	}
 
 	/**
 	 * @param locale the locale to set
 	 */
-	public void setLocale(LocalTypes locale) {
+	public void setLocale(LocalTypesDTO locale) {
 		this.locale = locale;
 	}
 
