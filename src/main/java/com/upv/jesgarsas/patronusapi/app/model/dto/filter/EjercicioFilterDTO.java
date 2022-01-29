@@ -13,6 +13,8 @@ public class EjercicioFilterDTO extends IFilterDTO{
 	
 	private Instant dateFin;
 	
+	private String patron;
+	
 	public EjercicioFilterDTO() {
 		
 	}
@@ -81,6 +83,20 @@ public class EjercicioFilterDTO extends IFilterDTO{
 		if (dateFin != null) {
 		this.dateFin = this.dateFin.plus(23, ChronoUnit.HOURS).plus(59, ChronoUnit.MINUTES).plus(59, ChronoUnit.SECONDS);
 		}
+	}
+
+	/**
+	 * @return the patron
+	 */
+	public String getPatron() {
+		return patron;
+	}
+
+	/**
+	 * @param patron the patron to set
+	 */
+	public void setPatron(String patron) {
+		this.patron = patron;
 	}
 	
 }

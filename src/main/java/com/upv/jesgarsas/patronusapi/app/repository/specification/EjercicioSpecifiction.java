@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Path;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
@@ -21,9 +22,13 @@ public class EjercicioSpecifiction implements Specification<Ejercicio> {
 	
 	public final static String FECHACREACION_COLUMNA = "fechaCreacion";
 
-	public final static String AUTOR_COLUMNA = "profesor";
+	public final static String AUTOR_COLUMNA = "autor";
 	
 	public final static String AUTOR_NICK_COLUMNA = "nick";
+	
+	public final static String PATRON_COLUMNA = "patron";
+	
+	public final static String PATRON_NOMBRE_COLUMNA = "nombre";
 	
 	private EjercicioFilterDTO dto;
 
@@ -41,6 +46,9 @@ public class EjercicioSpecifiction implements Specification<Ejercicio> {
 				if (dto.getProfesor() != null) {
 					predicates.add(criteriaBuilder.and(criteriaBuilder.like(criteriaBuilder.lower(root.get(AUTOR_COLUMNA).get(AUTOR_NICK_COLUMNA)), "%" + dto.getProfesor().toLowerCase() + "%")));
 				}
+				if (dto.getPatron() != null) {
+					predicates.add(criteriaBuilder.and(criteriaBuilder.like(criteriaBuilder.lower(root.get(PATRON_COLUMNA).get(PATRON_NOMBRE_COLUMNA)), "%" + dto.getPatron().toLowerCase() + "%")));
+				}
 				dto.addTimeToDateFin();
 				if (dto.getDateIni() != null && dto.getDateFin() != null) {
 					predicates.add(criteriaBuilder.and(criteriaBuilder.between(root.get(FECHACREACION_COLUMNA), dto.getDateIni(), (dto.getDateFin()))));
@@ -50,18 +58,20 @@ public class EjercicioSpecifiction implements Specification<Ejercicio> {
 					predicates.add(criteriaBuilder.and(criteriaBuilder.lessThanOrEqualTo(root.get(FECHACREACION_COLUMNA), dto.getDateFin())));
 				}
 				// Sorting
-				String column = NOMBRE_COLUMNA;
+				Path<?> column = root.get(NOMBRE_COLUMNA);
 				if(dto.getColumn() == null) { }
 				else if (dto.getColumn().equals(FECHACREACION_COLUMNA)) {
-					column = FECHACREACION_COLUMNA;
+					column = root.get(FECHACREACION_COLUMNA);
 				} else if (dto.getColumn().equals(AUTOR_COLUMNA)) {
-					column = AUTOR_COLUMNA;
+					column = root.get(AUTOR_COLUMNA).get(AUTOR_NICK_COLUMNA);
+				} else if (dto.getColumn().equals(PATRON_COLUMNA)) {
+					column = root.get(PATRON_COLUMNA).get(PATRON_NOMBRE_COLUMNA);
 				}
 				
 				if (("asc").equals(dto.getSort())) {
-					query.orderBy(criteriaBuilder.asc(root.get(column)));
+					query.orderBy(criteriaBuilder.asc(column));
 				} else {
-					query.orderBy(criteriaBuilder.desc(root.get(column)));
+					query.orderBy(criteriaBuilder.desc(column));
 				}
 
 		return criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));
