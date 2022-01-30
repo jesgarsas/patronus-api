@@ -1,5 +1,7 @@
 package com.upv.jesgarsas.patronusapi.app.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -36,5 +38,12 @@ public class EjercicioService {
 		result.setTotalElements(page.getTotalElements());
 		result.setTotalPages(page.getTotalPages());
 		return result;
+	}
+
+	public List<EjercicioDTO> findByPatron(Integer id, Integer idUser) {
+		if (id == null || idUser == null) {
+			return null;
+		}
+		return ejercicioMapper.toDtoTable(ejercicioRepository.findAllByPatronAndUsuario(id, idUser));
 	}
 }

@@ -27,6 +27,8 @@ public class EjercicioDTO implements Serializable {
 	
 	private Integer numPreguntas;
 	
+	private Integer intentos;
+	
 	public EjercicioDTO() {
 		
 	}
@@ -155,6 +157,20 @@ public class EjercicioDTO implements Serializable {
 	 */
 	public void setIdAutor(Integer idAutor) {
 		this.idAutor = idAutor;
+	}
+
+	/**
+	 * @return the intentos
+	 */
+	public Integer getIntentos() {
+		return intentos;
+	}
+
+	/**
+	 * @param intentos the intentos to set
+	 */
+	public void setIntentos(Integer intentos) {
+		this.intentos = intentos;
 	}
 
 }

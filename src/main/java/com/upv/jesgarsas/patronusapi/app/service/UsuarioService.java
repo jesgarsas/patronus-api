@@ -239,5 +239,9 @@ public class UsuarioService {
 			return false;
 		}
 	}
+	
+	public Usuario getOne(Integer id) {
+		return usuarioRepository.findByIdWithoutPassword(id);
+	}
 
 }

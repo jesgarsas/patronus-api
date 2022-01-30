@@ -1,8 +1,12 @@
 package com.upv.jesgarsas.patronusapi.app.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,7 +24,13 @@ public class EjercicioController {
 	private EjercicioService ejercicioService;
 	
 	@PostMapping("/profesor/all/filtered")
-	public ResponseEntity<PageDTO<EjercicioDTO>> findAllGruposFiltered(@RequestBody(required = true) EjercicioFilterDTO filter) {
+	public ResponseEntity<PageDTO<EjercicioDTO>> findAllPatronesFiltered(@RequestBody(required = true) EjercicioFilterDTO filter) {
 		return ResponseEntity.ok(ejercicioService.findAllPatronesPageable(filter));
+	}
+	
+	@GetMapping("/alumno/patron/{id}/usuario/{usuario}")
+	public ResponseEntity<List<EjercicioDTO>> findEjerciciosByPatron(@PathVariable(name = "id", required = true) Integer id, 
+			@PathVariable(name = "usuario", required = true) Integer idUser) {
+		return ResponseEntity.ok(ejercicioService.findByPatron(id, idUser));
 	}
 }

@@ -45,6 +45,9 @@ public class Ejercicio {
 	@Column(name = "fecha_creacion")
 	private Instant fechaCreacion;
 	
+	@Column(name = "intentos")
+	private Integer intentos;
+	
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, mappedBy = "ejercicio")
 	private Set<Pregunta> preguntas = new HashSet<>();
 	
@@ -148,6 +151,20 @@ public class Ejercicio {
 	 */
 	public void setAutor(Usuario autor) {
 		this.autor = autor;
+	}
+
+	/**
+	 * @return the intentos
+	 */
+	public Integer getIntentos() {
+		return intentos;
+	}
+
+	/**
+	 * @param intentos the intentos to set
+	 */
+	public void setIntentos(Integer intentos) {
+		this.intentos = intentos;
 	}
 	
 }

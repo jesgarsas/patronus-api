@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
 import org.springframework.stereotype.Service;
 
+import com.upv.jesgarsas.patronusapi.app.model.entity.Usuario;
 import com.upv.jesgarsas.patronusapi.app.utils.RolTypes;
 
 import io.jsonwebtoken.Claims;
@@ -28,6 +29,8 @@ public class JWTService {
 	private static final Logger LOG = LoggerFactory.getLogger(JWTService.class);
 	
 	private static final long EXPIRATION_TIME = TimeUnit.DAYS.toMillis(1);
+	
+	private UsuarioService usuarioService;
 
 	public String getJWTToken(String username, Integer rol, Integer id) {
 
@@ -61,11 +64,28 @@ public class JWTService {
 	
 	public boolean isSameIdUser(String jwtToken, Integer id) {
 		Claims claims = Jwts.parserBuilder().setSigningKey(getHmacKey()).build().parseClaimsJws(jwtToken).getBody();
+		Integer idUser = extractUser(jwtToken);
 		try {
-			return claims.containsKey("id") && (((Integer) claims.get("id")).equals(id) || ((String) claims.get("authorities")).equals(RolTypes.ADMINISTRADOR));
+			return idUser != null && (idUser.equals(id) || ((String) claims.get("authorities")).equals(RolTypes.ADMINISTRADOR));
 		} catch (Exception e) {
 			return false;
 		}
+	}
+	
+	public Usuario getUserFromToken(String jwtToken) {
+		Integer id = extractUser(jwtToken);
+		if (id != null) {
+			return usuarioService.getOne(id);
+		}
+		return null;
+	}
+	
+	private Integer extractUser(String jwtToken) {
+		Claims claims = Jwts.parserBuilder().setSigningKey(getHmacKey()).build().parseClaimsJws(jwtToken).getBody();
+		if (claims.containsKey("id")) {
+			return (Integer) claims.get("id");
+		}
+		return null;
 	}
 
 	private static SecretKeySpec getHmacKey() {
