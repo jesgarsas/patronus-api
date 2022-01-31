@@ -29,6 +29,10 @@ public class EjercicioDTO implements Serializable {
 	
 	private Integer intentos;
 	
+	private Double nota;
+	
+	private Integer realizados;
+	
 	public EjercicioDTO() {
 		
 	}
@@ -171,6 +175,34 @@ public class EjercicioDTO implements Serializable {
 	 */
 	public void setIntentos(Integer intentos) {
 		this.intentos = intentos;
+	}
+
+	/**
+	 * @return the nota
+	 */
+	public Double getNota() {
+		return nota;
+	}
+
+	/**
+	 * @param nota the nota to set
+	 */
+	public void setNota(Double nota) {
+		this.nota = nota;
+	}
+
+	/**
+	 * @return the realizados
+	 */
+	public Integer getRealizados() {
+		return realizados;
+	}
+
+	/**
+	 * @param realizados the realizados to set
+	 */
+	public void setRealizados(Integer realizados) {
+		this.realizados = realizados;
 	}
 
 }

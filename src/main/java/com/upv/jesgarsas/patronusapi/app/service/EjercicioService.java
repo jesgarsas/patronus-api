@@ -44,6 +44,6 @@ public class EjercicioService {
 		if (id == null || idUser == null) {
 			return null;
 		}
-		return ejercicioMapper.toDtoTable(ejercicioRepository.findAllByPatronAndUsuario(id, idUser));
+		return ejercicioMapper.toDtoTablePatron(ejercicioRepository.findAllByPatronAndUsuario(id, idUser));
 	}
 }
