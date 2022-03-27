@@ -33,4 +33,9 @@ public class EjercicioController {
 			@PathVariable(name = "usuario", required = true) Integer idUser) {
 		return ResponseEntity.ok(ejercicioService.findByPatron(id, idUser));
 	}
+	
+	@PostMapping("/profesor/save")
+	public ResponseEntity<Integer> saveEjercicio(@RequestBody(required = true) EjercicioDTO dto) {
+		return ResponseEntity.ok(this.ejercicioService.saveOrUpdate(dto));
+	}
 }

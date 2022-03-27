@@ -26,7 +26,8 @@ public abstract class PreguntaMapper {
 		return preguntas.stream().map(pregunta -> toDto(pregunta)).collect(Collectors.toList());
 	}
 	
-	@Mappings({@Mapping(target = "ejercicio", ignore = true), @Mapping(target = "opciones", expression = "java(opcionMapper.toEntity(pregunta.getOpciones()))")})
+	@Mappings({@Mapping(target = "ejercicio", ignore = true), @Mapping(target = "opciones", 
+			expression = "java(opcionMapper.toEntity(pregunta.getOpciones()))")})
 	public abstract Pregunta toEntity(PreguntaDTO pregunta); 
 	
 	public Set<Pregunta> toEntity(Collection<PreguntaDTO> preguntas) {

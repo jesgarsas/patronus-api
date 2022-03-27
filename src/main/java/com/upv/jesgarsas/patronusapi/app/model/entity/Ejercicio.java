@@ -48,7 +48,7 @@ public class Ejercicio {
 	@Column(name = "intentos")
 	private Integer intentos;
 	
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, mappedBy = "ejercicio")
+	@OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.REMOVE, CascadeType.PERSIST, CascadeType.MERGE}, mappedBy = "ejercicio")
 	private Set<Pregunta> preguntas = new HashSet<>();
 	
 	public Ejercicio() {

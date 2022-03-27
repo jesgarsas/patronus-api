@@ -36,7 +36,7 @@ public class Pregunta {
 	@JoinColumn(name = "id_ejercicio", referencedColumnName = "id")
 	private Ejercicio ejercicio;
 	
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, mappedBy = "pregunta")
+	@OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.REMOVE, CascadeType.PERSIST, CascadeType.MERGE}, mappedBy = "pregunta")
 	private Set<Opcion> opciones = new HashSet<>();
 	
 	/**

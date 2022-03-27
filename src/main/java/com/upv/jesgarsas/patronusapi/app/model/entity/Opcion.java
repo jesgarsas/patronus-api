@@ -28,6 +28,9 @@ public class Opcion {
 	@Column(name = "opcion")
 	private Integer opcion;
 	
+	@Column(name = "correcta")
+	private Boolean correcta;
+	
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
 	@JoinColumn(name = "id_pregunta")
 	private Pregunta pregunta;
@@ -90,6 +93,20 @@ public class Opcion {
 	 */
 	public void setPregunta(Pregunta pregunta) {
 		this.pregunta = pregunta;
+	}
+
+	/**
+	 * @return the correcta
+	 */
+	public Boolean getCorrecta() {
+		return correcta;
+	}
+
+	/**
+	 * @param correcta the correcta to set
+	 */
+	public void setCorrecta(Boolean correcta) {
+		this.correcta = correcta;
 	}
 	
 }

@@ -7,16 +7,20 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.upv.jesgarsas.patronusapi.app.model.dto.EjercicioDTO;
 import com.upv.jesgarsas.patronusapi.app.model.dto.PageDTO;
 import com.upv.jesgarsas.patronusapi.app.model.dto.filter.EjercicioFilterDTO;
 import com.upv.jesgarsas.patronusapi.app.model.entity.Ejercicio;
 import com.upv.jesgarsas.patronusapi.app.repository.EjercicioRepository;
+import com.upv.jesgarsas.patronusapi.app.repository.PatronRepository;
+import com.upv.jesgarsas.patronusapi.app.repository.UsuarioRepository;
 import com.upv.jesgarsas.patronusapi.app.repository.specification.EjercicioSpecifiction;
 import com.upv.jesgarsas.patronusapi.app.service.mapper.EjercicioMapper;
 
 @Service
+@Transactional
 public class EjercicioService {
 
 	@Autowired
@@ -24,6 +28,12 @@ public class EjercicioService {
 	
 	@Autowired
 	private EjercicioMapper ejercicioMapper;
+	
+	@Autowired
+	private UsuarioRepository usuarioRepository;
+	
+	@Autowired
+	private PatronRepository patronRepository;
 	
 	/**
 	 * Return a page filtered and ordened by column with a determined size
@@ -45,5 +55,25 @@ public class EjercicioService {
 			return null;
 		}
 		return ejercicioMapper.toDtoTablePatron(ejercicioRepository.findAllByPatronAndUsuario(id, idUser));
+	}
+
+	@Transactional
+	public Integer saveOrUpdate(EjercicioDTO dto) {
+		Ejercicio ejercicio = ejercicioMapper.toEntity(dto);
+		ejercicio.setAutor(usuarioRepository.findByIdWithoutPassword(dto.getIdAutor()));
+		ejercicio.setPatron(patronRepository.findById(dto.getPatron().getId()).orElseThrow(() -> new RuntimeException("Mandatory un patron")));
+		if (ejercicio.getPreguntas() != null) {
+			ejercicio.getPreguntas().forEach(pregunta -> {
+				pregunta.setEjercicio(ejercicio);
+				if (pregunta.getOpciones() != null) {
+					pregunta.getOpciones().forEach(opcion -> {
+						opcion.setPregunta(pregunta);
+					});
+				}
+			});
+		}
+		
+		this.ejercicioRepository.save(ejercicio);
+		return dto.getPatron().getId();
 	}
 }

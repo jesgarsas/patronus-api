@@ -14,6 +14,8 @@ public class OpcionDTO implements Serializable {
 	private String texto;
 	
 	private Integer opcion;
+	
+	private Boolean correcta;
 
 	/**
 	 * @return the id
@@ -55,6 +57,20 @@ public class OpcionDTO implements Serializable {
 	 */
 	public void setOpcion(Integer opcion) {
 		this.opcion = opcion;
+	}
+
+	/**
+	 * @return the correcta
+	 */
+	public Boolean getCorrecta() {
+		return correcta;
+	}
+
+	/**
+	 * @param correcta the correcta to set
+	 */
+	public void setCorrecta(Boolean correcta) {
+		this.correcta = correcta;
 	}
 	
 	

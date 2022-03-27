@@ -12,8 +12,6 @@ public class PreguntaDTO implements Serializable {
 	
 	private String pregunta;
 
-	private Integer respuesta;
-
 	private List<OpcionDTO> opciones = new ArrayList<>();
 	
 	/**
@@ -42,20 +40,6 @@ public class PreguntaDTO implements Serializable {
 	 */
 	public void setPregunta(String pregunta) {
 		this.pregunta = pregunta;
-	}
-
-	/**
-	 * @return the respuesta
-	 */
-	public Integer getRespuesta() {
-		return respuesta;
-	}
-
-	/**
-	 * @param respuesta the respuesta to set
-	 */
-	public void setRespuesta(Integer respuesta) {
-		this.respuesta = respuesta;
 	}
 
 	/**
