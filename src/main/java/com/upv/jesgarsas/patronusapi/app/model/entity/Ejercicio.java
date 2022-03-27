@@ -27,7 +27,7 @@ public class Ejercicio {
 	@Column(name = "id", nullable = false)
 	private Integer id;
 	
-	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "id_patron")
 	private Patron patron;
 	

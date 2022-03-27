@@ -76,4 +76,9 @@ public class EjercicioService {
 		this.ejercicioRepository.save(ejercicio);
 		return dto.getPatron().getId();
 	}
+	
+	@Transactional
+	public void deleteById(Integer id) {
+		this.ejercicioRepository.deleteById(id);
+	}
 }

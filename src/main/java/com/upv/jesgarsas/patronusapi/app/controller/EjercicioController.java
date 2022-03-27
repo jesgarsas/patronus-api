@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -37,5 +38,11 @@ public class EjercicioController {
 	@PostMapping("/profesor/save")
 	public ResponseEntity<Integer> saveEjercicio(@RequestBody(required = true) EjercicioDTO dto) {
 		return ResponseEntity.ok(this.ejercicioService.saveOrUpdate(dto));
+	}
+	
+	@DeleteMapping("/profesor/delete/{id}")
+	public ResponseEntity<Boolean> saveEjercicio(@PathVariable(name = "id", required = true) Integer id) {
+		this.ejercicioService.deleteById(id);
+		return ResponseEntity.ok(true);
 	}
 }
