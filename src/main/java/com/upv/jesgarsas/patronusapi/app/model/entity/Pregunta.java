@@ -32,7 +32,7 @@ public class Pregunta {
 	@Column(name = "respuesta")
 	private Integer respuesta;
 	
-	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "id_ejercicio", referencedColumnName = "id")
 	private Ejercicio ejercicio;
 	

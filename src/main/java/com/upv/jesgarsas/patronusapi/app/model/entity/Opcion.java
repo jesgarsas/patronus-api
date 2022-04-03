@@ -31,7 +31,7 @@ public class Opcion {
 	@Column(name = "correcta")
 	private Boolean correcta;
 	
-	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "id_pregunta")
 	private Pregunta pregunta;
 	

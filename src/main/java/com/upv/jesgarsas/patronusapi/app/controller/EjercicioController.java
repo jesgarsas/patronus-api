@@ -45,4 +45,10 @@ public class EjercicioController {
 		this.ejercicioService.deleteById(id);
 		return ResponseEntity.ok(true);
 	}
+	
+	@GetMapping("/profesor/{id}")
+	public ResponseEntity<EjercicioDTO> findById(@PathVariable(name = "id", required = true) Integer id) {
+		return ResponseEntity.ok(ejercicioService.findById(id));
+	}
+
 }
