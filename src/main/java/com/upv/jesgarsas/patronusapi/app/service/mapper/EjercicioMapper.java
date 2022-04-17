@@ -43,6 +43,14 @@ public abstract class EjercicioMapper {
 		@Mapping(target = "preguntas", expression = "java(preguntaMapper.toDto(ejercicio.getPreguntas()))")})
 	public abstract EjercicioDTO toDto(Ejercicio ejercicio);
 	
+	@Mappings({ @Mapping(target = "numPreguntas", expression = "java(ejercicio.getPreguntas() != null ? ejercicio.getPreguntas().size() : 0)"),
+		@Mapping(target = "nombreAutor", source = "autor.nick"), @Mapping(target = "idAutor", source = "autor.id"),
+		@Mapping(target = "locale", expression = "java(localMapper.toDto(ejercicio.getLocale()))"),
+		@Mapping(target = "patron", expression = "java(patronMapper.toDto(ejercicio.getPatron()))"),
+		@Mapping(target = "nota", ignore = true), @Mapping(target = "realizados", ignore = true),
+		@Mapping(target = "preguntas", expression = "java(preguntaMapper.toDtoWithouCorrectas(ejercicio.getPreguntas()))")})
+	public abstract EjercicioDTO toDtoWithouCorrectas(Ejercicio ejercicio);
+	
 	public List<EjercicioDTO> toDto(Collection<Ejercicio> ejercicios) {
 		return ejercicios.stream().map(ejercicio -> toDtoTable(ejercicio)).collect(Collectors.toList());
 	}

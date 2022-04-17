@@ -50,5 +50,10 @@ public class EjercicioController {
 	public ResponseEntity<EjercicioDTO> findById(@PathVariable(name = "id", required = true) Integer id) {
 		return ResponseEntity.ok(ejercicioService.findById(id));
 	}
+	
+	@GetMapping("/alumno/{id}")
+	public ResponseEntity<EjercicioDTO> findWithoutCorrectasById(@PathVariable(name = "id", required = true) Integer id) {
+		return ResponseEntity.ok(ejercicioService.findWithoutCorrectasById(id));
+	}
 
 }

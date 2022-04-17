@@ -22,6 +22,13 @@ public abstract class PreguntaMapper {
 	@Mappings({@Mapping(target = "opciones", expression = "java(opcionMapper.toDto(pregunta.getOpciones()))")})
 	public abstract PreguntaDTO toDto(Pregunta pregunta); 
 	
+	@Mappings({@Mapping(target = "opciones", expression = "java(opcionMapper.toDtoWithouCorrectas(pregunta.getOpciones()))")})
+	public abstract PreguntaDTO toDtoWithouCorrectas(Pregunta pregunta); 	
+	
+	public List<PreguntaDTO> toDtoWithouCorrectas(Collection<Pregunta> preguntas) {
+		return preguntas.stream().map(pregunta -> toDtoWithouCorrectas(pregunta)).collect(Collectors.toList());
+	}
+
 	public List<PreguntaDTO> toDto(Collection<Pregunta> preguntas) {
 		return preguntas.stream().map(pregunta -> toDto(pregunta)).collect(Collectors.toList());
 	}

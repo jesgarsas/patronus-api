@@ -108,4 +108,8 @@ public class EjercicioService {
 	public EjercicioDTO findById(Integer id) {
 		return this.ejercicioMapper.toDto(ejercicioRepository.getOne(id));
 	}
+	
+	public EjercicioDTO findWithoutCorrectasById(Integer id) {
+		return this.ejercicioMapper.toDtoWithouCorrectas(ejercicioRepository.getOne(id));
+	}
 }

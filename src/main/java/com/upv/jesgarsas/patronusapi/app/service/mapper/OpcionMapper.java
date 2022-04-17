@@ -18,6 +18,13 @@ public abstract class OpcionMapper {
 	@Mappings({})
 	public abstract OpcionDTO toDto(Opcion opcion);
 	
+	@Mappings({ @Mapping(target = "correcta", ignore = true)})
+	public abstract OpcionDTO toDtoWithouCorrectas(Opcion opcion);
+	
+	public List<OpcionDTO> toDtoWithouCorrectas(Collection<Opcion> opciones) {
+		return opciones.stream().map(opcion -> toDtoWithouCorrectas(opcion)).collect(Collectors.toList());
+	}
+	
 	public List<OpcionDTO> toDto(Collection<Opcion> opciones) {
 		return opciones.stream().map(opcion -> toDto(opcion)).collect(Collectors.toList());
 	}
