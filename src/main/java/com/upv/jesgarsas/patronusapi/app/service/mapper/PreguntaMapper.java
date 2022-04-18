@@ -34,7 +34,8 @@ public abstract class PreguntaMapper {
 	}
 	
 	@Mappings({@Mapping(target = "ejercicio", ignore = true), @Mapping(target = "opciones", 
-			expression = "java(opcionMapper.toEntity(pregunta.getOpciones()))")})
+			expression = "java(opcionMapper.toEntity(pregunta.getOpciones()))"),
+		@Mapping(target = "respuesta", ignore = true)})
 	public abstract Pregunta toEntity(PreguntaDTO pregunta); 
 	
 	public Set<Pregunta> toEntity(Collection<PreguntaDTO> preguntas) {

@@ -21,9 +21,10 @@ public interface EjercicioRepository extends JpaRepository<Ejercicio, Integer>,
 
 	public Page<Ejercicio> findAll(Specification<Ejercicio> spec, Pageable pageable);
 
-	@Query(value = "SELECT ID, ID_PATRON, ID_LOCAL, NOMBRE, FECHA_CREACION as fechaCreacion, AUTOR, INTENTOS, nota, sum(CASE WHEN res_id IS NOT NULL THEN 1 ELSE 0 END) AS realizados FROM "
-			+ "(SELECT e.*, r.id AS res_id, "
-			+ "(r.CORRECTAS / (SELECT count(*) FROM PREGUNTA p WHERE p.ID_EJERCICIO = 1) * 10.0) AS nota "
+	@Query(value = "SELECT ID, ID_PATRON, ID_LOCAL, NOMBRE, FECHA_CREACION as fechaCreacion, AUTOR, INTENTOS, nota, max(x.realizados) AS realizados FROM "
+			+ "(SELECT e.*, r.intento AS realizados, "
+			// + "(r.CORRECTAS / (SELECT count(*) FROM PREGUNTA p WHERE p.ID_EJERCICIO = 1) * 10.0) AS nota "
+			+ "0 AS nota "
 			+ "FROM ejercicio e LEFT JOIN RESULTADO r ON r.ID_EJERCICIO = e.ID AND r.ID_USUARIO = :usuario WHERE  e.ID_PATRON = :patron) x "
 			+ "GROUP BY ID, ID_PATRON, ID_LOCAL, NOMBRE, FECHA_CREACION, AUTOR, INTENTOS, nota", nativeQuery = true)
 	public List<IEjercicioTable> findAllByPatronAndUsuario(@Param("patron") Integer patron,

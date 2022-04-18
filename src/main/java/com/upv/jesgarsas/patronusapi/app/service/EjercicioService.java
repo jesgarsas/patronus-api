@@ -1,6 +1,7 @@
 package com.upv.jesgarsas.patronusapi.app.service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -44,6 +45,9 @@ public class EjercicioService {
 	@Autowired
 	private OpcionRepository opcionRepository;
 	
+	@Autowired
+	private ResultadoService resultadoService;
+	
 	/**
 	 * Return a page filtered and ordened by column with a determined size
 	 * @param filter dto with params
@@ -63,7 +67,11 @@ public class EjercicioService {
 		if (id == null || idUser == null) {
 			return null;
 		}
-		return ejercicioMapper.toDtoTablePatron(ejercicioRepository.findAllByPatronAndUsuario(id, idUser));
+		List<EjercicioDTO> dto = ejercicioMapper.toDtoTablePatron(ejercicioRepository.findAllByPatronAndUsuario(id, idUser));
+		dto.forEach(ejercicio -> {
+			ejercicio.setNota(resultadoService.getNotaUsuario(idUser, ejercicio.getId()));
+		});
+		return dto;
 	}
 
 	@Transactional
@@ -90,13 +98,21 @@ public class EjercicioService {
 	
 	private void deleteOpciones(Pregunta pregunta) {
 		if (pregunta.getId() != null) {
-			opcionRepository.deleteByPreguntaId(pregunta.getId());
+			//opcionRepository.deleteByPreguntaId(pregunta.getId());
+			List<Integer> ids = opcionRepository.findIdsByPreguntaId(pregunta.getId());
+			List<Integer> newIds = pregunta.getOpciones().stream().map(p -> p.getId()).collect(Collectors.toList());
+			ids = ids.stream().filter(id -> !newIds.contains(id)).collect(Collectors.toList());
+			opcionRepository.deleteByIdIn(ids);
 		}
 	}
 
 	private void deletePreguntas(Ejercicio ejercicio) {
 		if (ejercicio.getId() != null) {
-			preguntaRepository.deleteByEjercicioId(ejercicio.getId());
+			List<Integer> ids = preguntaRepository.findIdsByEjercicioId(ejercicio.getId());
+			List<Integer> newIds = ejercicio.getPreguntas().stream().map(p -> p.getId()).collect(Collectors.toList());
+			ids = ids.stream().filter(id -> !newIds.contains(id)).collect(Collectors.toList());
+			// preguntaRepository.deleteByEjercicioId(ejercicio.getId());
+			preguntaRepository.deleteByIdIn(ids);
 		}
 	}
 
@@ -107,6 +123,10 @@ public class EjercicioService {
 	
 	public EjercicioDTO findById(Integer id) {
 		return this.ejercicioMapper.toDto(ejercicioRepository.getOne(id));
+	}
+	
+	public Ejercicio findEntityById(Integer id) {
+		return ejercicioRepository.getOne(id);
 	}
 	
 	public EjercicioDTO findWithoutCorrectasById(Integer id) {

@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -55,6 +56,7 @@ public class JWTAuthorizationFilter extends OncePerRequestFilter {
 	private void setUpSpringAuthentication(Claims claims) {
 		List<String> authorities = new ArrayList<>();
 		authorities.add((String) claims.get("authorities"));
+		authorities.add(String.valueOf((Integer) claims.get("id")));
 
 		UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(claims.getSubject(), null,
 				authorities.stream().map(SimpleGrantedAuthority::new).collect(Collectors.toList()));
@@ -67,6 +69,16 @@ public class JWTAuthorizationFilter extends OncePerRequestFilter {
 		if (authenticationHeader == null)
 			return false;
 		return true;
+	}
+	
+	
+	public static Integer getUserId() {
+		GrantedAuthority authority = ((List<? extends GrantedAuthority>) SecurityContextHolder.getContext().getAuthentication().getAuthorities()).get(1);
+		try {
+			return Integer.parseInt(authority.getAuthority());
+		} catch (NumberFormatException e) {
+			return null;
+		}
 	}
 
 }
