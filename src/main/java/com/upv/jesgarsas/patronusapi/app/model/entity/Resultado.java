@@ -1,5 +1,6 @@
 package com.upv.jesgarsas.patronusapi.app.model.entity;
 
+import java.sql.Timestamp;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -35,11 +36,14 @@ public class Resultado {
 	
 	@Column(name = "intento")
 	private Integer intento;
+	
+	@Column(name = "fecha")
+	private Timestamp fecha;
 
 	public Resultado() {
 	}
 
-	public Resultado(Integer idUsuario, Integer idEjercicio, Integer idPregunta, Integer idOpcion, Boolean marcada, Integer intento) {
+	public Resultado(Integer idUsuario, Integer idEjercicio, Integer idPregunta, Integer idOpcion, Boolean marcada, Integer intento, Timestamp fecha) {
 		super();
 		this.idUsuario = idUsuario;
 		this.idEjercicio = idEjercicio;
@@ -47,6 +51,7 @@ public class Resultado {
 		this.idOpcion = idOpcion;
 		this.marcada = marcada == null ? false : marcada;
 		this.intento = intento;
+		this.fecha = fecha;
 	}
 
 	/**
@@ -145,5 +150,19 @@ public class Resultado {
 	 */
 	public void setIntento(Integer intento) {
 		this.intento = intento;
+	}
+
+	/**
+	 * @return the fecha
+	 */
+	public Timestamp getFecha() {
+		return fecha;
+	}
+
+	/**
+	 * @param fecha the fecha to set
+	 */
+	public void setFecha(Timestamp fecha) {
+		this.fecha = fecha;
 	}
 }

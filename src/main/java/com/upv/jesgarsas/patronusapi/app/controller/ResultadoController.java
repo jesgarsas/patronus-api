@@ -1,5 +1,7 @@
 package com.upv.jesgarsas.patronusapi.app.controller;
 
+import javax.websocket.server.PathParam;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -28,5 +30,14 @@ public class ResultadoController {
 	@GetMapping("/alumno/checkIntentos/{idEjercicio}")
 	public ResponseEntity<Boolean> checkIntentos(@PathVariable(required = true, value = "idEjercicio") Integer idEjercicio) {
 		return ResponseEntity.ok(resultadoService.canUsuarioHacerEjercicio(idEjercicio));
+	}
+	
+	@GetMapping("/profesor/estadisticas/ejercicio/{idEjercicio}")
+	public ResponseEntity<Object> getEstadisticas(@PathVariable(required = true, value = "idEjercicio") Integer idEjercicio,
+			@PathParam(value = "idGrupos") Integer[] idGrupos) throws Exception {
+		if (idGrupos == null || idGrupos.length == 0) {
+			throw new Exception("Se ha de seleccionar almenos un grupo");
+		}
+		return ResponseEntity.ok(resultadoService.getEstadisticas(idEjercicio, idGrupos));
 	}
 }
