@@ -16,7 +16,7 @@ public interface ResultadoRepository extends JpaRepository<Resultado, Integer> {
 	
 	public List<Resultado> findByIdUsuarioAndIdEjercicioAndIntento(Integer idUsuario, Integer idEjercicio, Integer intento);
 	
-	@Query(nativeQuery = true, value = "SELECT x.id_pregunta AS id, CASE WHEN x.MARCADA = o.CORRECTA THEN 1 ELSE 0 END AS correcta "
+	@Query(nativeQuery = true, value = "SELECT x.id_pregunta AS id, CASE WHEN x.MARCADA = o.CORRECTA THEN 1 ELSE 0 END AS correcta, x.fecha "
 			+ "FROM (SELECT r.*, RANK() OVER (PARTITION BY r.ID_EJERCICIO, r.ID_USUARIO, r.ID_PREGUNTA, r.ID_OPCION ORDER BY r.INTENTO desc) rank  "
 			+ "FROM RESULTADO r) x LEFT JOIN USUARIO u ON u.ID = x.ID_USUARIO INNER JOIN R_GRUPO_ALUMNO rga ON rga.ID_USUARIO = u.id  "
 			+ "LEFT JOIN OPCION o ON o.ID = x.ID_OPCION "

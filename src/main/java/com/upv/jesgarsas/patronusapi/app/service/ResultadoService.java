@@ -114,6 +114,7 @@ public class ResultadoService {
 		Ejercicio ejercicio = ejercicioService.findEntityById(idEjercicio);
 		if (ejercicio != null) {
 			EstadisticasEjercicioDTO estadisticas = estadisticasEjerMapper.toDto(ejercicio);
+			estadisticas.setNumeroPreguntas(ejercicio.getPreguntas().size());
 			getEstadisticasGrupo(idEjercicio, idGrupos, estadisticas);
 			return estadisticas;
 		}
@@ -145,6 +146,7 @@ public class ResultadoService {
 		if (resultados != null) {
 			for (IEstadisticaPregunta resultado : resultados) {
 				EstadisticasPreguntaDTO estPregunta = new EstadisticasPreguntaDTO(resultado.getId());
+				estAlumno.setFecha(resultado.getFecha());
 				int index = estAlumno.getEjercicios().indexOf(estPregunta);
 				if (index != -1) {
 					estPregunta = estAlumno.getEjercicios().get(index);
