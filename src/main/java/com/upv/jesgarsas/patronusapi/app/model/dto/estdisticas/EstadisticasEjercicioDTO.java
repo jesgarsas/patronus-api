@@ -16,6 +16,8 @@ public class EstadisticasEjercicioDTO implements Serializable {
 	private int numeroPreguntas;
 	
 	private List<EstadisticasGrupoDTO> grupos = new ArrayList<EstadisticasGrupoDTO>();
+	
+	private List<String> preguntas = new ArrayList<String>();
 
 	public EstadisticasEjercicioDTO() {
 	}
@@ -74,6 +76,20 @@ public class EstadisticasEjercicioDTO implements Serializable {
 	 */
 	public void setNumeroPreguntas(int numeroPreguntas) {
 		this.numeroPreguntas = numeroPreguntas;
+	}
+
+	/**
+	 * @return the preguntas
+	 */
+	public List<String> getPreguntas() {
+		return preguntas;
+	}
+
+	/**
+	 * @param preguntas the preguntas to set
+	 */
+	public void setPreguntas(List<String> preguntas) {
+		this.preguntas = preguntas;
 	}
 	
 	

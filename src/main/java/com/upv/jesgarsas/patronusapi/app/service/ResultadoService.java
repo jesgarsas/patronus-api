@@ -4,6 +4,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -115,6 +116,7 @@ public class ResultadoService {
 		if (ejercicio != null) {
 			EstadisticasEjercicioDTO estadisticas = estadisticasEjerMapper.toDto(ejercicio);
 			estadisticas.setNumeroPreguntas(ejercicio.getPreguntas().size());
+			estadisticas.setPreguntas(ejercicio.getPreguntas().stream().map(ejer -> ejer.getPregunta()).collect(Collectors.toList()));
 			getEstadisticasGrupo(idEjercicio, idGrupos, estadisticas);
 			return estadisticas;
 		}
@@ -125,6 +127,7 @@ public class ResultadoService {
 		for (Integer idGrupo : idGrupos) {
 			Grupo grupo = grupoService.findById(idGrupo);
 			EstadisticasGrupoDTO estGrupo = new EstadisticasGrupoDTO(grupo.getNombre(), grupo.getAlumnos().size());
+			estGrupo.setId(grupo.getId());
 			estadisticas.getGrupos().add(estGrupo);
 			getEstadisticasAlumno(idEjercicio, grupo, estGrupo);
 		}

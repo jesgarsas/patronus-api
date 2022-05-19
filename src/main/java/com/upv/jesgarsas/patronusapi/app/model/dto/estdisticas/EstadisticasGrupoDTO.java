@@ -9,6 +9,8 @@ public class EstadisticasGrupoDTO implements Serializable {
 	/** */
 	private static final long serialVersionUID = 1L;
 
+	private Integer id;
+	
 	private String nombre;
 	
 	private Integer total;
@@ -135,6 +137,20 @@ public class EstadisticasGrupoDTO implements Serializable {
 				this.setNoResueltos(this.getNoResueltos() + 1);
 			}
 		}
+	}
+
+	/**
+	 * @return the id
+	 */
+	public Integer getId() {
+		return id;
+	}
+
+	/**
+	 * @param id the id to set
+	 */
+	public void setId(Integer id) {
+		this.id = id;
 	}
 	
 }
