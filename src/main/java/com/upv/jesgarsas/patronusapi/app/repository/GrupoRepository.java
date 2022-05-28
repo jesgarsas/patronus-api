@@ -7,6 +7,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Repository;
 
@@ -21,4 +22,7 @@ public interface GrupoRepository extends JpaRepository<Grupo, Integer>, PagingAn
 	public List<Grupo> findAllByProfesorId(Integer id);
 	
 	public Page<Grupo> findAll(Specification<Grupo> spec, Pageable pageable);
+	
+	@Query(value = "SELECT g FROM Grupo as g WHERE size(g.alumnos) > 0 order by g.id")
+	public List<Grupo> findAllAutocomplete();
 }

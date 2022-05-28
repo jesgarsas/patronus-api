@@ -35,7 +35,7 @@ public class ResultadoController {
 	@GetMapping("/profesor/estadisticas/ejercicio/{idEjercicio}")
 	public ResponseEntity<Object> getEstadisticas(@PathVariable(required = true, value = "idEjercicio") Integer idEjercicio,
 			@PathParam(value = "idGrupos") Integer[] idGrupos) throws Exception {
-		if (idGrupos == null || idGrupos.length == 0) {
+		if (idGrupos == null) {
 			throw new Exception("Se ha de seleccionar almenos un grupo");
 		}
 		return ResponseEntity.ok(resultadoService.getEstadisticas(idEjercicio, idGrupos));

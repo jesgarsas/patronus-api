@@ -37,4 +37,7 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Integer>  {
 	@Modifying
 	@Query(value = "UPDATE Usuario SET NICK = :nick, EMAIL = :email WHERE ID = :id", nativeQuery = true)
 	public void edit(Integer id, String nick, String email);
+	
+	@Query(value = "SELECT g.ID FROM GRUPO g WHERE g.ID_PROFESOR = :id AND EXISTS(SELECT * FROM R_GRUPO_ALUMNO rga WHERE rga.ID_GRUPO = g.ID)", nativeQuery = true)
+	public List<Integer> findGruposByUser(@Param("id") Integer id);
 }

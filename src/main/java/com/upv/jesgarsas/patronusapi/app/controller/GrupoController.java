@@ -1,5 +1,7 @@
 package com.upv.jesgarsas.patronusapi.app.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -41,4 +43,10 @@ public class GrupoController {
 	public ResponseEntity<GrupoDTO> saveOrUpdate(@RequestBody GrupoDTO dto) {
 		return ResponseEntity.ok(grupoService.saveOrUpdate(dto));
 	}
+
+	@GetMapping("/alumno/autocomplete")
+	public ResponseEntity<List<GrupoDTO>> getList() {
+		return ResponseEntity.ok(grupoService.findAll());
+	}
+	
 }

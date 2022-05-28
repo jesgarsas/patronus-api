@@ -15,6 +15,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
@@ -242,6 +244,15 @@ public class UsuarioService {
 	
 	public Usuario getOne(Integer id) {
 		return usuarioRepository.findByIdWithoutPassword(id);
+	}
+
+	public List<Integer> findGruposByUser() {
+		String idUser = ((SimpleGrantedAuthority) SecurityContextHolder.getContext().getAuthentication().getAuthorities().toArray()[1]).getAuthority();
+		try {
+			return usuarioRepository.findGruposByUser(Integer.valueOf(idUser));
+		} catch (NumberFormatException e) {
+			return new ArrayList<>();
+		}
 	}
 
 }

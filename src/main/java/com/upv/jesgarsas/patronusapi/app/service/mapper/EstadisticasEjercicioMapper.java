@@ -10,6 +10,6 @@ import com.upv.jesgarsas.patronusapi.app.model.entity.Ejercicio;
 @Mapper(componentModel = "spring")
 public abstract class EstadisticasEjercicioMapper {
 
-	@Mappings({@Mapping(target = "grupos", ignore = true), @Mapping(target = "preguntas", ignore = true)})
+	@Mappings({@Mapping(target = "grupos", ignore = true), @Mapping(target = "preguntas", ignore = true), @Mapping(target = "numeroPreguntas", ignore = true)})
 	public abstract EstadisticasEjercicioDTO toDto(Ejercicio ejercicio);
 }

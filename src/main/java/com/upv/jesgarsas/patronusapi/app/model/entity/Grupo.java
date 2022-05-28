@@ -19,6 +19,10 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "Grupo")
 public class Grupo {
+	
+	public static String ID = "id";
+	
+	public static String NOMBRE = "nombre";
 
 	@Id
 	@SequenceGenerator(name = "GEN_SEQ_GRUPO", allocationSize = 1, sequenceName = "SEQ_GRUPO")

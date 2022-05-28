@@ -127,7 +127,7 @@ public class ResultadoService {
 		for (Integer idGrupo : idGrupos) {
 			Grupo grupo = grupoService.findById(idGrupo);
 			EstadisticasGrupoDTO estGrupo = new EstadisticasGrupoDTO(grupo.getNombre(), grupo.getAlumnos().size());
-			estGrupo.setId(grupo.getId());
+			estGrupo.setId(grupo.getId() );
 			estadisticas.getGrupos().add(estGrupo);
 			getEstadisticasAlumno(idEjercicio, grupo, estGrupo);
 		}

@@ -59,6 +59,11 @@ public class UsuarioController {
 	public ResponseEntity<List<UsuarioDTO>> findAllUsuarios() {
 		return ResponseEntity.ok(usuarioService.findAllUsuarios());
 	}
+	
+	@GetMapping("/alumno/grupos")
+	public ResponseEntity<List<Integer>> findGruposByUser() {
+		return ResponseEntity.ok(usuarioService.findGruposByUser());
+	}
 
 	@GetMapping("/profesor/type/{types}")
 	public ResponseEntity<List<UsuarioDTO>> findAllUsuariosByType(@PathVariable(name = "types") String types) {

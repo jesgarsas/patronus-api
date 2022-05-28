@@ -10,6 +10,8 @@ public class GrupoDTO implements Serializable {
 	
 	private String nombre;
 	
+	private String label;
+	
 	private UsuarioDTO profesor;
 	
 	private Integer alumnosCount;
@@ -70,6 +72,20 @@ public class GrupoDTO implements Serializable {
 	 */
 	public void setAlumnosCount(Integer alumnosCount) {
 		this.alumnosCount = alumnosCount;
+	}
+
+	/**
+	 * @return the label
+	 */
+	public String getLabel() {
+		return label;
+	}
+
+	/**
+	 * @param label the label to set
+	 */
+	public void setLabel(String label) {
+		this.label = label;
 	}
 	
 	

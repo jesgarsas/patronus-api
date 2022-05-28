@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.upv.jesgarsas.patronusapi.app.model.dto.GrupoDTO;
@@ -41,6 +42,11 @@ public class GrupoService {
 	public GrupoDTO findByIdDTO(Integer id) {
 		Grupo grupo = findById(id);
 		return grupo != null ? grupoMapper.toDto(grupo) : null;
+	}
+	
+	public List<GrupoDTO> findAll() {
+		List<GrupoDTO> result = grupoMapper.toDtoAutocomplete(grupoRepository.findAllAutocomplete());
+		return result;
 	}
 	
 	public PageDTO<GrupoDTO> findAllGruposPageable(GrupoFilterDTO filter) {
