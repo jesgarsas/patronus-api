@@ -8,6 +8,7 @@ import org.springframework.data.repository.query.Param;
 
 import com.upv.jesgarsas.patronusapi.app.model.entity.Resultado;
 import com.upv.jesgarsas.patronusapi.app.repository.interfaces.IEstadisticaPregunta;
+import com.upv.jesgarsas.patronusapi.app.repository.interfaces.ILastEjercicio;
 
 public interface ResultadoRepository extends JpaRepository<Resultado, Integer> {
 
@@ -23,4 +24,14 @@ public interface ResultadoRepository extends JpaRepository<Resultado, Integer> {
 			+ "WHERE x.ID_EJERCICIO = :idEjercicio AND rga.ID_GRUPO = :idGrupo AND RANK = 1 AND x.ID_USUARIO = :idUsuario")
 	public List<IEstadisticaPregunta> findByIdUsuarioAndIdEjercicioAndIntentoAndLast(@Param("idUsuario") Integer idUsuario, @Param("idEjercicio") Integer idEjercicio,
 			@Param("idGrupo") Integer idGrupo);
+	
+	@Query(nativeQuery = true, value = "SELECT r2.ID_EJERCICIO as ejercicioId, r2.FECHA, e.NOMBRE, INTENTO FROM RESULTADO r2 LEFT JOIN EJERCICIO e ON e.ID = r2.ID_EJERCICIO WHERE r2.FECHA = (SELECT max(FECHA) FROM RESULTADO r WHERE r.ID_USUARIO = :usuario)"
+			+ "	AND ID_USUARIO = :usuario  AND rownum = 1")
+	public ILastEjercicio findLastEjercicioId(@Param("usuario") Integer idUsuario);
+	
+	@Query(nativeQuery = true, value = "SELECT count(*) FROM EJERCICIO e WHERE EXISTS (SELECT * FROM RESULTADO r WHERE r.ID_EJERCICIO = e.ID AND r.ID_USUARIO = :usuario)")
+	public Integer findCountEjerciciosResueltos(@Param("usuario") Integer idUsuario);
+	
+	@Query(nativeQuery = true, value = "SELECT count(*) FROM EJERCICIO e WHERE NOT EXISTS (SELECT * FROM RESULTADO r WHERE r.ID_EJERCICIO = e.ID AND r.ID_USUARIO = :usuario)")
+	public Integer findCountEjerciciosNoResueltos(@Param("usuario") Integer idUsuario);
 }

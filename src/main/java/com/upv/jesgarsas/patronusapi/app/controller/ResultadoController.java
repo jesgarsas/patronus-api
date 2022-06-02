@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.upv.jesgarsas.patronusapi.app.model.dto.HomeEstadisticasDTO;
+import com.upv.jesgarsas.patronusapi.app.model.dto.LastEjercicioDTO;
 import com.upv.jesgarsas.patronusapi.app.model.dto.ResultadoDTO;
 import com.upv.jesgarsas.patronusapi.app.service.ResultadoService;
 
@@ -39,5 +41,15 @@ public class ResultadoController {
 			throw new Exception("Se ha de seleccionar almenos un grupo");
 		}
 		return ResponseEntity.ok(resultadoService.getEstadisticas(idEjercicio, idGrupos));
+	}
+	
+	@GetMapping("/alumno/ultimo/")
+	public ResponseEntity<LastEjercicioDTO> getUltimoEjercicio() {
+		return ResponseEntity.ok(resultadoService.getLastEjercicio());
+	}
+	
+	@GetMapping("/alumno/estadisticas/")
+	public ResponseEntity<HomeEstadisticasDTO> getEjerciciosResueltosEstat() {
+		return ResponseEntity.ok(resultadoService.getEjerciciosResueltosEstat());
 	}
 }

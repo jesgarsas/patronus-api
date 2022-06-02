@@ -132,4 +132,8 @@ public class EjercicioService {
 	public EjercicioDTO findWithoutCorrectasById(Integer id) {
 		return this.ejercicioMapper.toDtoWithouCorrectas(ejercicioRepository.getOne(id));
 	}
+	
+	public Integer findCount() {
+		return (int) this.ejercicioRepository.count();
+	}
 }

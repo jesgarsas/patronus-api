@@ -7,8 +7,12 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import com.upv.jesgarsas.patronusapi.app.model.dto.HomeEstadisticasDTO;
+import com.upv.jesgarsas.patronusapi.app.model.dto.LastEjercicioDTO;
 import com.upv.jesgarsas.patronusapi.app.model.dto.OpcionDTO;
 import com.upv.jesgarsas.patronusapi.app.model.dto.PreguntaDTO;
 import com.upv.jesgarsas.patronusapi.app.model.dto.ResultadoDTO;
@@ -25,6 +29,7 @@ import com.upv.jesgarsas.patronusapi.app.model.entity.Resultado;
 import com.upv.jesgarsas.patronusapi.app.model.entity.Usuario;
 import com.upv.jesgarsas.patronusapi.app.repository.ResultadoRepository;
 import com.upv.jesgarsas.patronusapi.app.repository.interfaces.IEstadisticaPregunta;
+import com.upv.jesgarsas.patronusapi.app.repository.interfaces.ILastEjercicio;
 import com.upv.jesgarsas.patronusapi.app.service.mapper.EstadisticasEjercicioMapper;
 
 @Service
@@ -161,5 +166,36 @@ public class ResultadoService {
 				}	
 			}
 		}
+	}
+	
+	public LastEjercicioDTO getLastEjercicio() {
+		Integer idUsuario = -1;
+		try {
+			idUsuario = Integer.valueOf(((SimpleGrantedAuthority) SecurityContextHolder.getContext().getAuthentication().getAuthorities().toArray()[1]).getAuthority());
+		} catch (Exception e) {
+			return null;
+		}
+		ILastEjercicio iDto = resultadoRepository.findLastEjercicioId(idUsuario);
+		LastEjercicioDTO dto = new LastEjercicioDTO();
+		dto.setEjercicioId(iDto.getEjercicioId());
+		dto.setFecha(iDto.getFecha());
+		dto.setNombre(iDto.getNombre());
+		dto.setIntento(iDto.getIntento());
+		dto.setNota(getNotaUsuario(idUsuario, dto.getEjercicioId()));
+		return dto;
+	}
+	
+	public HomeEstadisticasDTO getEjerciciosResueltosEstat() {
+		Integer idUsuario = -1;
+		try {
+			idUsuario = Integer.valueOf(((SimpleGrantedAuthority) SecurityContextHolder.getContext().getAuthentication().getAuthorities().toArray()[1]).getAuthority());
+		} catch (Exception e) {
+			return null;
+		}
+		HomeEstadisticasDTO dto = new HomeEstadisticasDTO();
+		dto.setNoRealizados(resultadoRepository.findCountEjerciciosNoResueltos(idUsuario));
+		dto.setRealizados(resultadoRepository.findCountEjerciciosResueltos(idUsuario));
+		dto.setTotal(ejercicioService.findCount());
+		return dto;
 	}
 }
